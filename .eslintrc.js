@@ -10,10 +10,11 @@ module.exports = {
     // 'import/no-unresolved': 'never',
     // Since React 17 and typescript 4.1 you can safely disable the rule
     'react/react-in-jsx-scope': 'off',
-    indent: ['error', 2],
+    indent: ['error', 2, { SwitchCase: 1 }],
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
+    'max-len': ['error', { code: 150 }],
   },
   parserOptions: {
     ecmaVersion: 2020,

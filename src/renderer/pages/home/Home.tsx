@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 // import Cross from 'renderer/components/cross/Cross';
 import Stimuli from 'renderer/components/stimuli/Stimuli';
 import useEventListener from 'renderer/feature/eventListener/EventListener';
+import LengthTestExercise from 'renderer/feature/lengthTestExercise/LengthTestExercise';
 import randomIntFromInterval from 'renderer/feature/random/Random';
 import { getUserSelector } from 'renderer/store/auth';
 import './Home.scss';
@@ -47,11 +48,11 @@ const Home = () => {
 
   return (
     <div className="home">
-      <h1>
+      {/* <h1>
         Stimulus : {step} / {NUMBER_OF_STEP}
-      </h1>
-      <Stimuli id={1} size={600} middleDivergence={middleDivergence} />
-      {/* <Cross size={10} /> */}
+      </h1> */}
+      {/* <Stimuli id={1} size={600} middleDivergence={middleDivergence} /> */}
+      <LengthTestExercise />
     </div>
   );
 };

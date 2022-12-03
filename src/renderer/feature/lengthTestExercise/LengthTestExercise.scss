@@ -1,0 +1,25 @@
+.lengthTextExercise {
+  height: 100vh;
+
+  &--text {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+  }
+
+  &--image {
+    border: 1px solid;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  &--order-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+}

@@ -33,46 +33,49 @@ const Stimuli = ({ id, size, middleDivergence }: PropsStimuli) => {
       drawShape.clearAll();
 
       drawShape.drawRectangle(
-        new Point(rectangleCenterX(drawShape.getWidth(), size), height / 2),
+        new Point(
+          rectangleCenterX(drawShape.getWidth(), size),
+          height / 2 - RECTANGLE_CANVAS_HEIGHT / 2
+        ),
         new Point(size, RECTANGLE_CANVAS_HEIGHT)
       );
 
       // Vertical Middle line
       drawShape.drawLine(
-        new Point(width / 2 + middleDivergence, height / 2),
         new Point(
           width / 2 + middleDivergence,
-          height / 2 + RECTANGLE_CANVAS_HEIGHT
+          height / 2 - RECTANGLE_CANVAS_HEIGHT / 2
+        ),
+        new Point(
+          width / 2 + middleDivergence,
+          height / 2 + RECTANGLE_CANVAS_HEIGHT / 2
         )
       );
 
       // Horizontal Middle line
       drawShape.drawLine(
-        new Point(
-          rectangleCenterX(drawShape.getWidth(), size),
-          height / 2 + RECTANGLE_CANVAS_HEIGHT / 2
-        ),
+        new Point(rectangleCenterX(drawShape.getWidth(), size), height / 2),
         new Point(
           drawShape.getWidth() - rectangleCenterX(drawShape.getWidth(), size),
-          height / 2 + RECTANGLE_CANVAS_HEIGHT / 2
+          height / 2
         )
       );
 
       // UP LEFT FILL RECTANGLE
       drawShape.fillRectangle(
-        new Point(rectangleCenterX(drawShape.getWidth(), size), height / 2),
+        new Point(
+          rectangleCenterX(drawShape.getWidth(), size),
+          height / 2 - RECTANGLE_CANVAS_HEIGHT / 2
+        ),
         new Point(size / 2 + middleDivergence, RECTANGLE_CANVAS_HEIGHT / 2)
       );
 
       // DOWN RIGHT FILL RECTANGLE
       drawShape.fillRectangle(
-        new Point(
-          width / 2 + middleDivergence,
-          height / 2 + RECTANGLE_CANVAS_HEIGHT / 2
-        ),
+        new Point(width / 2 + middleDivergence, height / 2),
         new Point(size / 2 - middleDivergence, RECTANGLE_CANVAS_HEIGHT / 2)
       );
-      //ctx.rect(size, 0, width - size * 2, RECTANGLE_CANVAS_HEIGHT);
+      // ctx.rect(size, 0, width - size * 2, RECTANGLE_CANVAS_HEIGHT);
     }
   };
 
