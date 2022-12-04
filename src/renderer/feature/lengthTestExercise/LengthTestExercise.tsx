@@ -9,18 +9,21 @@ import arrowLeft from '../../../../assets/arrow-left.png';
 import arrowRight from '../../../../assets/arrow-right.png';
 
 interface PropsLengthTestExercise {
-  sendResult: (isUserResponseRight: boolean) => void;
+  // sendResult: (isUserResponseRight: boolean) => void;
+  stimuliLength: number;
+  middleDivergence: number;
 }
 
-const LengthTestExercise = () => {
+const LengthTestExercise = ({
+  stimuliLength,
+  middleDivergence,
+}: PropsLengthTestExercise) => {
   const ESCAPE_KEYS = ['ArrowRight', 'ArrowLeft'];
   const { width } = useWindowDimensions();
   const [step, setStep] = useState<number>(0);
   const [middleOfTheScreenX, setMiddleOfTheScreenX] = useState<number>(0);
-  const [middleDivergence, setMiddleDivergence] = useState(0);
 
   useEffect(() => {
-    setMiddleDivergence(randomIntFromInterval(-100, 100));
     const timer = setTimeout(() => {
       setStep(1);
     }, 1000);
@@ -57,7 +60,7 @@ const LengthTestExercise = () => {
         <img
           className="lengthTextExercise--image"
           src={arrowLeft}
-          alt="arrow-right"
+          alt="arrow-left"
           width={100}
           height={80}
         />
@@ -67,7 +70,7 @@ const LengthTestExercise = () => {
 
   const arrowKeysHandler = (event: KeyboardEvent) => {
     event.preventDefault();
-    if (ESCAPE_KEYS.includes(String(event.key)) && step > 0 && step < 4) {
+    if (ESCAPE_KEYS.includes(String(event.key)) && step > 0 && step < 3) {
       setStep(step + 1);
       console.log('step: ', step);
     }
@@ -81,7 +84,11 @@ const LengthTestExercise = () => {
         return <Cross size={10} />;
       case 1:
         return (
-          <Stimuli id={1} size={600} middleDivergence={middleDivergence} />
+          <Stimuli
+            id={1}
+            size={stimuliLength}
+            middleDivergence={middleDivergence}
+          />
         );
       case 2:
         return (
@@ -91,7 +98,7 @@ const LengthTestExercise = () => {
               <img
                 className="lengthTextExercise--image"
                 src={arrowLeft}
-                alt="arrow-right"
+                alt="arrow-left"
                 width={100}
                 height={80}
               />

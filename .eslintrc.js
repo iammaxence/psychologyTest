@@ -12,7 +12,7 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     indent: ['error', 2, { SwitchCase: 1 }],
     'linebreak-style': ['error', 'unix'],
-    quotes: ['error', 'single'],
+    quotes: ['error', 'single', { avoidEscape: true }],
     semi: ['error', 'always'],
     'max-len': ['error', { code: 150 }],
   },

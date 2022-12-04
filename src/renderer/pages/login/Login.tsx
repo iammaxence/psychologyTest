@@ -16,7 +16,6 @@ const Login = () => {
   };
 
   const submit = () => {
-    console.log('Submit id: ', id);
     dispatch(login(id));
     navigate('/home');
   };

@@ -1,0 +1,24 @@
+.explanatoryText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &--title {
+    font-size: 3rem;
+    text-decoration: underline;
+  }
+
+  &--description {
+    font-size: 2rem;
+  }
+
+  &--bloc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
