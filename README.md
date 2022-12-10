@@ -2,7 +2,9 @@
 
 nothing for now..
 
+## Must do it
+
 ## fix
 
 - Refacto Home Page
-- LengthTextExercise need to emit event when it's end
+- Refacto arrowKeysHandler from Home and LengthTestExercise

@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import useEventListener from 'renderer/feature/eventListener/EventListener';
 import ExplanatoryText from 'renderer/feature/explanatoryText/ExplanatoryText';
 import LengthTestExercise from 'renderer/feature/lengthTestExercise/LengthTestExercise';
+import { TestResponse } from 'renderer/feature/lengthTestExercise/TestResponse';
 import './Home.scss';
 
-const NUMBER_OF_STEP = 10;
-const ESCAPE_KEYS = ['ArrowRight', 'ArrowLeft'];
+const ESCAPE_KEYS = ['Space'];
 
 type Scenario = ScenarioText | ScenarioExcercise;
 
@@ -24,10 +24,13 @@ interface ScenarioExcercise {
 const Home = () => {
   const [step, setStep] = useState(0);
   const [currentStepPage, setCurrentStepPage] = useState<Scenario | null>(null);
+  const [userResponse, setUserResponse] = useState<TestResponse>(
+    TestResponse.NONE
+  );
   // const user = useSelector(getUserSelector);
 
   // Add type Scenario
-  const scenarioTest: Scenario[] = [
+  const scenarioTestList: Scenario[] = [
     {
       type: 'TEXT',
       title: "Phase d'entrainement",
@@ -75,31 +78,39 @@ const Home = () => {
   useEffect(() => {
     //Data storage => use this instead :  https://github.com/sindresorhus/electron-store
     localStorage.setItem('step', step.toString());
-    setCurrentStepPage(scenarioTest[0]);
+    setCurrentStepPage(scenarioTestList[0]);
   }, []);
 
   useEffect(() => {
-    if (step < scenarioTest.length) {
+    if (step < scenarioTestList.length) {
       localStorage.setItem('step', (step + 1).toString());
-      setCurrentStepPage(scenarioTest[step]);
+      setCurrentStepPage(scenarioTestList[step]);
     }
   }, [step]);
 
-  const displayScenario = () => {
-    if (currentStepPage && currentStepPage.type === 'TEXT') {
-      return (
-        <ExplanatoryText
-          title={currentStepPage.title}
-          description={currentStepPage.description}
-        />
-      );
-    } else if (currentStepPage) {
-      return (
-        <LengthTestExercise
-          stimuliLength={currentStepPage.length}
-          middleDivergence={currentStepPage.middleDivergence}
-        />
-      );
+  const numberOfTextStep = () => {
+    return scenarioTestList.reduce((countTextType, currentScenario) => {
+      return currentScenario.type === 'TEXT'
+        ? countTextType + 1
+        : countTextType;
+    }, 0);
+  };
+
+  const arrowKeysHandler = (event: KeyboardEvent) => {
+    event.preventDefault();
+    if (
+      ESCAPE_KEYS.includes(String(event.code)) &&
+      userResponse != TestResponse.NONE
+    ) {
+      incrementStep();
+    }
+
+    if (
+      ESCAPE_KEYS.includes(String(event.code)) &&
+      step < numberOfTextStep() &&
+      currentStepPage?.type === 'TEXT'
+    ) {
+      incrementStep();
     }
   };
 
@@ -109,21 +120,30 @@ const Home = () => {
     setStep(nextStep);
   };
 
-  const arrowKeysHandler = (event: KeyboardEvent) => {
-    event.preventDefault();
-    console.log('currentStepPage : ', currentStepPage);
-    if (
-      ESCAPE_KEYS.includes(String(event.key)) &&
-      step < 10 &&
-      currentStepPage?.type === 'TEXT'
-    ) {
-      incrementStep();
-    }
-  };
-
   useEventListener('keydown', arrowKeysHandler);
 
-  return <div className="home">{currentStepPage && displayScenario()}</div>;
+  const displayScenario = () => {
+    if (!currentStepPage) return null;
+
+    if (currentStepPage.type === 'TEXT') {
+      return (
+        <ExplanatoryText
+          title={currentStepPage.title}
+          description={currentStepPage.description}
+        />
+      );
+    }
+
+    return (
+      <LengthTestExercise
+        stimuliLength={currentStepPage.length}
+        middleDivergence={currentStepPage.middleDivergence}
+        sendResult={setUserResponse}
+      />
+    );
+  };
+
+  return <div className="home">{displayScenario()}</div>;
 };
 
 export default Home;
