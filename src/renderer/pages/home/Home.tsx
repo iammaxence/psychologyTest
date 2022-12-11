@@ -5,8 +5,6 @@ import LengthTestExercise from 'renderer/feature/lengthTestExercise/LengthTestEx
 import { TestResponse } from 'renderer/feature/lengthTestExercise/TestResponse';
 import './Home.scss';
 
-const ESCAPE_KEYS = ['Space'];
-
 type Scenario = ScenarioText | ScenarioExcercise;
 
 interface ScenarioText {
@@ -22,11 +20,9 @@ interface ScenarioExcercise {
 }
 
 const Home = () => {
+  const ESCAPE_KEYS = ['Space'];
   const [step, setStep] = useState(0);
   const [currentStepPage, setCurrentStepPage] = useState<Scenario | null>(null);
-  const [latestUserResponse, setlatestUserResponse] = useState<TestResponse>(
-    TestResponse.NONE
-  );
   const [userResponseMap, setUserResponseMap] = useState<
     Map<number, TestResponse>
   >(new Map());
@@ -79,8 +75,7 @@ const Home = () => {
   ];
 
   useEffect(() => {
-    //Data storage => use this instead :  https://github.com/sindresorhus/electron-store
-    localStorage.setItem('step', step.toString());
+    //Data storage => use this :  https://github.com/sindresorhus/electron-store
     setCurrentStepPage(scenarioTestList[0]);
   }, []);
 
@@ -92,18 +87,15 @@ const Home = () => {
     }
   }, [step]);
 
-  useEffect(() => {
-    if (latestUserResponse !== TestResponse.NONE) {
-      updateUserResponseMap(step, latestUserResponse);
-      setlatestUserResponse(TestResponse.NONE);
+  const storeResult = (testResponse: TestResponse) => {
+    if (testResponse !== TestResponse.NONE) {
+      setUserResponseMap((map) => new Map(map.set(step, testResponse)));
+      setStep((step) => step + 1);
     }
-  }, [latestUserResponse]);
-
-  const updateUserResponseMap = (key: number, value: TestResponse) => {
-    setUserResponseMap((map) => new Map(map.set(key, value)));
   };
 
   const hasUserAnsweredCurrentExercise = () => {
+    console.log('userResponseMap.get(step) : ', userResponseMap.get(step));
     return (
       currentStepPage?.type === 'EXERCISE' &&
       userResponseMap.has(step) &&
@@ -119,14 +111,8 @@ const Home = () => {
       step < scenarioTestList.length &&
       (currentStepPage?.type === 'TEXT' || hasUserAnsweredCurrentExercise())
     ) {
-      incrementStep();
+      setStep((step) => step + 1);
     }
-  };
-
-  const incrementStep = () => {
-    const nextStep: number = +localStorage.getItem('step')! + 1;
-    localStorage.setItem('step', nextStep.toString());
-    setStep(nextStep);
   };
 
   useEventListener('keydown', arrowKeysHandler);
@@ -147,7 +133,7 @@ const Home = () => {
       <LengthTestExercise
         stimuliLength={currentStepPage.length}
         middleDivergence={currentStepPage.middleDivergence}
-        sendResult={setlatestUserResponse}
+        sendResult={storeResult}
       />
     );
   };

@@ -17,8 +17,6 @@ const Cross = ({ size }: PropsCross) => {
   }, []);
 
   useEffect(() => {
-    console.log('------UPDATE COMPONENT-----');
-
     drawCross();
   }, [width, height, drawShape]);
 
