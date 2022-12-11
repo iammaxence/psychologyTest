@@ -27,11 +27,12 @@ const LengthTestExercise = ({
   const [middleOfTheScreenX, setMiddleOfTheScreenX] = useState<number>(0);
 
   useEffect(() => {
+    setStep(0);
     const timer = setTimeout(() => {
       setStep(1);
     }, 1000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [stimuliLength, middleDivergence]);
 
   useEffect(() => {
     setMiddleOfTheScreenX(width / 2);
@@ -47,7 +48,7 @@ const LengthTestExercise = ({
   const arrowKeysHandler = (event: KeyboardEvent) => {
     event.preventDefault();
     if (ESCAPE_KEYS.includes(String(event.key)) && step > 0 && step < 3) {
-      if (step === 1) {
+      if (step === 2) {
         setUserAnwer(
           String(event.key) === 'ArrowRight'
             ? TestResponse.RIGHT

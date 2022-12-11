@@ -24,9 +24,12 @@ interface ScenarioExcercise {
 const Home = () => {
   const [step, setStep] = useState(0);
   const [currentStepPage, setCurrentStepPage] = useState<Scenario | null>(null);
-  const [userResponse, setUserResponse] = useState<TestResponse>(
+  const [latestUserResponse, setlatestUserResponse] = useState<TestResponse>(
     TestResponse.NONE
   );
+  const [userResponseMap, setUserResponseMap] = useState<
+    Map<number, TestResponse>
+  >(new Map());
   // const user = useSelector(getUserSelector);
 
   // Add type Scenario
@@ -59,13 +62,13 @@ const Home = () => {
     },
     {
       type: 'EXERCISE',
-      length: 700,
-      middleDivergence: 50,
+      length: 400,
+      middleDivergence: 20,
     },
     {
       type: 'EXERCISE',
-      length: 700,
-      middleDivergence: 50,
+      length: 200,
+      middleDivergence: -20,
     },
     {
       type: 'TEXT',
@@ -83,32 +86,38 @@ const Home = () => {
 
   useEffect(() => {
     if (step < scenarioTestList.length) {
-      localStorage.setItem('step', (step + 1).toString());
       setCurrentStepPage(scenarioTestList[step]);
+    } else {
+      console.log(userResponseMap);
     }
   }, [step]);
 
-  const numberOfTextStep = () => {
-    return scenarioTestList.reduce((countTextType, currentScenario) => {
-      return currentScenario.type === 'TEXT'
-        ? countTextType + 1
-        : countTextType;
-    }, 0);
+  useEffect(() => {
+    if (latestUserResponse !== TestResponse.NONE) {
+      updateUserResponseMap(step, latestUserResponse);
+      setlatestUserResponse(TestResponse.NONE);
+    }
+  }, [latestUserResponse]);
+
+  const updateUserResponseMap = (key: number, value: TestResponse) => {
+    setUserResponseMap((map) => new Map(map.set(key, value)));
+  };
+
+  const hasUserAnsweredCurrentExercise = () => {
+    return (
+      currentStepPage?.type === 'EXERCISE' &&
+      userResponseMap.has(step) &&
+      userResponseMap.get(step) !== TestResponse.NONE
+    );
   };
 
   const arrowKeysHandler = (event: KeyboardEvent) => {
     event.preventDefault();
-    if (
-      ESCAPE_KEYS.includes(String(event.code)) &&
-      userResponse != TestResponse.NONE
-    ) {
-      incrementStep();
-    }
 
     if (
       ESCAPE_KEYS.includes(String(event.code)) &&
-      step < numberOfTextStep() &&
-      currentStepPage?.type === 'TEXT'
+      step < scenarioTestList.length &&
+      (currentStepPage?.type === 'TEXT' || hasUserAnsweredCurrentExercise())
     ) {
       incrementStep();
     }
@@ -138,7 +147,7 @@ const Home = () => {
       <LengthTestExercise
         stimuliLength={currentStepPage.length}
         middleDivergence={currentStepPage.middleDivergence}
-        sendResult={setUserResponse}
+        sendResult={setlatestUserResponse}
       />
     );
   };
