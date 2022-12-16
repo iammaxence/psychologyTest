@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import DrawShape from 'renderer/feature/drawShape/drawShape';
+import DrawShape from 'renderer/feature/drawShape/DrawShape';
 import useWindowDimensions from 'renderer/feature/windowDimensions/WindowDimentions';
 import Point from '../stimuli/point/Point';
 

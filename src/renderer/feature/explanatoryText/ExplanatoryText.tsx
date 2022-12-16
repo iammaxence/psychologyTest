@@ -1,4 +1,4 @@
-import arrowRight from '../../../../assets/arrow-right.png';
+import space from '../../../../assets/space.png';
 import './ExplanatoryText.scss';
 
 interface PropsExplanatoryText {
@@ -19,8 +19,8 @@ const ExplanatoryText = ({ title, description }: PropsExplanatoryText) => {
       <div className="explanatoryText--bloc">
         <img
           className="explanatoryText--image"
-          src={arrowRight}
-          alt="arrow-right"
+          src={space}
+          alt="space"
           width={60}
           height={60}
         />

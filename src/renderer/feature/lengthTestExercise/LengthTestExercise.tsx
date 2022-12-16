@@ -7,7 +7,7 @@ import './LengthTestExercise.scss';
 import arrowLeft from '../../../../assets/arrow-left.png';
 import arrowRight from '../../../../assets/arrow-right.png';
 import { TestResponse } from './TestResponse';
-import LeftRightAnswer from './leftRightAnswer/leftRightAnswer';
+import LeftRightAnswer from './leftRightAnswer/LeftRightAnswer';
 
 enum ExerciseStep {
   CROSS_STEP = 0,

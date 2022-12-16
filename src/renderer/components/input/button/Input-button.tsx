@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import SimpleButton from 'renderer/components/button/simpleButton';
+import SimpleButton from 'renderer/components/button/SimpleButton';
 import InputText from '../text/InputText';
 import './Input-button.scss';
 

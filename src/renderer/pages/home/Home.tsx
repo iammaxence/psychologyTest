@@ -58,12 +58,42 @@ const Home = () => {
     },
     {
       type: 'EXERCISE',
-      length: 400,
+      length: 700,
       middleDivergence: 20,
     },
     {
       type: 'EXERCISE',
-      length: 200,
+      length: 700,
+      middleDivergence: -20,
+    },
+    {
+      type: 'TEXT',
+      title: '',
+      description:
+        'Nous allons désormais faire le même exercice mais vous devrez indiquer quel côté de la droite est le plus court. \
+        Toujours avec les fleches du clavier. Une croix apparaîtra encore sur l\'écran avant l\'apparition de la doite \
+        qu\'il faudra fixer',
+    },
+    {
+      type: 'TEXT',
+      title: '',
+      description:
+        'Nous allons donc vous demander cette fois-ci d\'estimer: \
+        Quel côté  de la droite est le plus court?',
+    },
+    {
+      type: 'EXERCISE',
+      length: 400,
+      middleDivergence: -50,
+    },
+    {
+      type: 'EXERCISE',
+      length: 400,
+      middleDivergence: 50,
+    },
+    {
+      type: 'EXERCISE',
+      length: 400,
       middleDivergence: -20,
     },
     {
