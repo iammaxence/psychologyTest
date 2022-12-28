@@ -12,7 +12,7 @@ interface PropsStimuli {
 
 const Stimuli = ({ id, size, middleDivergence }: PropsStimuli) => {
   const { width, height } = useWindowDimensions();
-  const RECTANGLE_CANVAS_HEIGHT = 40;
+  const RECTANGLE_CANVAS_HEIGHT = 19;
 
   const [drawShape, setDrawShape] = useState<DrawShape>();
 

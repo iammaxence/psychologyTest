@@ -1,13 +1,25 @@
 .lengthTextExercise {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100vw;
   height: 100vh;
 
   &--text {
-    height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    width: 65%;
+    height: 60%;
+    margin: auto;
+
     font-size: 3rem;
+    padding: 3rem;
+    border: 1px;
+    border-radius: 10px;
+    background-color: #D0DFD5;
   }
 
   &--image {

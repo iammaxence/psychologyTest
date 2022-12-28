@@ -6,6 +6,7 @@ import useWindowDimensions from '../windowDimensions/WindowDimentions';
 import './LengthTestExercise.scss';
 import arrowLeft from '../../../../assets/arrow-left.png';
 import arrowRight from '../../../../assets/arrow-right.png';
+import space from '../../../../assets/space.png';
 import { TestResponse } from './TestResponse';
 import LeftRightAnswer from './leftRightAnswer/LeftRightAnswer';
 
@@ -19,15 +20,19 @@ enum ExerciseStep {
 interface PropsLengthTestExercise {
   stimuliLength: number;
   middleDivergence: number;
+  question: string;
   sendResult: (testResponse: TestResponse) => void;
 }
 
 const LengthTestExercise = ({
   stimuliLength,
   middleDivergence,
+  question,
   sendResult,
 }: PropsLengthTestExercise) => {
   const ESCAPE_KEYS = ['ArrowRight', 'ArrowLeft'];
+  const ESCAPE_KEY_RESULT = ['Space'];
+
   const { width } = useWindowDimensions();
   const [step, setStep] = useState<number>(0);
   const [userAnswer, setUserAnwer] = useState<TestResponse>(TestResponse.NONE);
@@ -53,21 +58,16 @@ const LengthTestExercise = ({
   const arrowKeysHandler = (event: KeyboardEvent) => {
     event.preventDefault();
 
-    if (
-      ESCAPE_KEYS.includes(String(event.key)) &&
-      step === ExerciseStep.USER_RESPONSE_STEP
-    ) {
-      if (step === ExerciseStep.USER_RESPONSE_STEP) {
-        const userResponseKey =
+    if (ESCAPE_KEYS.includes(String(event.key)) && step === ExerciseStep.USER_RESPONSE_STEP) {
+      const userResponseKey =
           String(event.key) === 'ArrowRight'
             ? TestResponse.RIGHT
             : TestResponse.LEFT;
-        setUserAnwer(userResponseKey);
-      }
+      setUserAnwer(userResponseKey);
       setStep(ExerciseStep.RESULT_TEST);
     }
 
-    if (step === ExerciseStep.RESULT_TEST) {
+    if (ESCAPE_KEY_RESULT.includes(String(event.code)) && step === ExerciseStep.RESULT_TEST) {
       sendResult(userAnswer);
       setUserAnwer(TestResponse.NONE);
     }
@@ -96,7 +96,7 @@ const LengthTestExercise = ({
       case ExerciseStep.USER_RESPONSE_STEP:
         return (
           <div className="lengthTextExercise--text">
-            <p>Quel côté était le plus long ? </p>
+            <p> { question } </p>
             <div className="lengthTextExercise--order-img">
               <img
                 className="lengthTextExercise--image"
@@ -119,8 +119,18 @@ const LengthTestExercise = ({
       case ExerciseStep.RESULT_TEST:
         return (
           <div className="lengthTextExercise--text">
-            <p>La réponse était </p>
+            <span>La réponse est </span>
             <LeftRightAnswer answer={isMiddleToRight()} />
+            <div className="explanatoryText--bloc">
+              <img
+                className="explanatoryText--image"
+                src={space}
+                alt="space"
+                width={60}
+                height={60}
+              />
+              <p> pour continuer </p>
+            </div>
           </div>
         );
       default:

@@ -29,7 +29,7 @@ const LeftRightAnswer = ({ answer }: PropsLeftRightAnswer) => {
       );
     }
   };
-  return <div>{displayAnswer()}</div>;
+  return displayAnswer();
 };
 
 export default LeftRightAnswer;

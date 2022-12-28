@@ -4,8 +4,9 @@ import './ExplanatoryText.scss';
 interface PropsExplanatoryText {
   title: string;
   description: string;
+  bloc?: string;
 }
-const ExplanatoryText = ({ title, description }: PropsExplanatoryText) => {
+const ExplanatoryText = ({ title, description, bloc }: PropsExplanatoryText) => {
   const displayTitle = () => {
     if (title !== '') {
       return <h1 className="explanatoryText--title">{title}</h1>;
@@ -14,8 +15,11 @@ const ExplanatoryText = ({ title, description }: PropsExplanatoryText) => {
 
   return (
     <div className="explanatoryText">
-      {displayTitle()}
-      <p className="explanatoryText--description">{description}</p>
+      <div className="explanatoryText--head">
+        {displayTitle()}
+        <p className="explanatoryText--description">{description}</p>
+        <p className='explanatoryText--description'>{bloc !== undefined  && bloc}</p>
+      </div>
       <div className="explanatoryText--bloc">
         <img
           className="explanatoryText--image"

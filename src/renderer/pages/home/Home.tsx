@@ -11,12 +11,14 @@ interface ScenarioText {
   type: 'TEXT';
   title: string;
   description: string;
+  bloc?: string;
 }
 
 interface ScenarioExcercise {
   type: 'EXERCISE';
   length: number;
   middleDivergence: number;
+  question: string;
 }
 
 const Home = () => {
@@ -35,7 +37,7 @@ const Home = () => {
       title: "Phase d'entrainement",
       description:
         "Le but du test est d'indiquer quel côté de la ligne qui vous sera présentée est la plus courte \
-        ou la plus longue selon la consigne. Vous devez répondre à la question à l'aide des flèches du clavier",
+        ou la plus longue selon la consigne. Vous devez répondre à la question à l'aide des flèches du clavier.",
     },
     {
       type: 'TEXT',
@@ -49,22 +51,26 @@ const Home = () => {
       type: 'TEXT',
       title: '',
       description:
-        "Nous allons commencer par vous demander d'estimer: Quel côté de la droite est le plus long ?",
+        "Nous allons commencer par vous demander d'estimer:",
+      bloc: 'Quel côté de la droite est le plus long ?'
     },
     {
       type: 'EXERCISE',
-      length: 700,
-      middleDivergence: 50,
+      length: 918,
+      middleDivergence: 100,
+      question: 'Quel côté de la droite est le plus long ?'
     },
     {
       type: 'EXERCISE',
-      length: 700,
-      middleDivergence: 20,
+      length: 918,
+      middleDivergence: 80,
+      question: 'Quel côté de la droite est le plus long ?'
     },
     {
       type: 'EXERCISE',
-      length: 700,
-      middleDivergence: -20,
+      length: 918,
+      middleDivergence: -80,
+      question: 'Quel côté de la droite est le plus long ?'
     },
     {
       type: 'TEXT',
@@ -78,29 +84,39 @@ const Home = () => {
       type: 'TEXT',
       title: '',
       description:
-        'Nous allons donc vous demander cette fois-ci d\'estimer: \
-        Quel côté  de la droite est le plus court?',
+        'Nous allons donc vous demander cette fois-ci d\'estimer:',
+      bloc: 'Quel côté de la droite est le plus court ?'
     },
     {
       type: 'EXERCISE',
-      length: 400,
-      middleDivergence: -50,
+      length: 92,
+      middleDivergence: -15,
+      question: 'Quel côté de la droite est le plus court ?'
     },
     {
       type: 'EXERCISE',
-      length: 400,
-      middleDivergence: 50,
+      length: 92,
+      middleDivergence: 20,
+      question: 'Quel côté de la droite est le plus court ?'
     },
     {
       type: 'EXERCISE',
-      length: 400,
-      middleDivergence: -20,
+      length: 92,
+      middleDivergence: -15,
+      question: 'Quel côté de la droite est le plus court ?'
     },
     {
       type: 'TEXT',
       title: "Fin de l'entrainement",
       description:
         "L'essai est terminé et le test va débuter. N'hésitez pas à poser des questions si besoin avant de débuter",
+    },
+    {
+      type: 'TEXT',
+      title: 'Résultats du test',
+      description:
+        'Les résultats du test sont les suivants: ',
+      bloc: Array.from(userResponseMap.values()).join(','),
     },
   ];
 
@@ -155,6 +171,7 @@ const Home = () => {
         <ExplanatoryText
           title={currentStepPage.title}
           description={currentStepPage.description}
+          bloc={currentStepPage?.bloc}
         />
       );
     }
@@ -163,6 +180,7 @@ const Home = () => {
       <LengthTestExercise
         stimuliLength={currentStepPage.length}
         middleDivergence={currentStepPage.middleDivergence}
+        question={currentStepPage.question}
         sendResult={storeResult}
       />
     );
