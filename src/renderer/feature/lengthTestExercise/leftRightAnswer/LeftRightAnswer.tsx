@@ -1,13 +1,12 @@
 import arrowLeft from '../../../../../assets/arrow-left.png';
 import arrowRight from '../../../../../assets/arrow-right.png';
-import { TestResponse } from '../TestResponse';
 
 interface PropsLeftRightAnswer {
-  answer: TestResponse;
+  answer: string;
 }
 const LeftRightAnswer = ({ answer }: PropsLeftRightAnswer) => {
   const displayAnswer = () => {
-    if (answer === TestResponse.RIGHT) {
+    if (answer === 'RIGHT') {
       return (
         <img
           className="leftRightAnswer--image"

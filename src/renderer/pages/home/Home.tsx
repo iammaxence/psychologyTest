@@ -1,123 +1,29 @@
 import { useEffect, useState } from 'react';
-import useEventListener from 'renderer/feature/eventListener/EventListener';
+import { useSelector } from 'react-redux';
 import ExplanatoryText from 'renderer/feature/explanatoryText/ExplanatoryText';
 import LengthTestExercise from 'renderer/feature/lengthTestExercise/LengthTestExercise';
 import { TestResponse } from 'renderer/feature/lengthTestExercise/TestResponse';
+import Statistics from 'renderer/feature/statistics/Statistics';
+import { getUserSelector } from 'renderer/store/auth';
 import './Home.scss';
-
-type Scenario = ScenarioText | ScenarioExcercise;
-
-interface ScenarioText {
-  type: 'TEXT';
-  title: string;
-  description: string;
-  bloc?: string;
-}
-
-interface ScenarioExcercise {
-  type: 'EXERCISE';
-  length: number;
-  middleDivergence: number;
-  question: string;
-}
+import { Scenario, makeScenario } from 'renderer/feature/scenario/Scenario';
 
 const Home = () => {
-  const ESCAPE_KEYS = ['Space'];
   const [step, setStep] = useState(0);
   const [currentStepPage, setCurrentStepPage] = useState<Scenario | null>(null);
   const [userResponseMap, setUserResponseMap] = useState<
     Map<number, TestResponse>
   >(new Map());
-  // const user = useSelector(getUserSelector);
+  const user = useSelector(getUserSelector);
 
-  // Add type Scenario
   const scenarioTestList: Scenario[] = [
-    {
-      type: 'TEXT',
-      title: "Phase d'entrainement",
-      description:
-        "Le but du test est d'indiquer quel côté de la ligne qui vous sera présentée est la plus courte \
-        ou la plus longue selon la consigne. Vous devez répondre à la question à l'aide des flèches du clavier.",
-    },
-    {
-      type: 'TEXT',
-      title: '',
-      description:
-        "Avant que chaque ligne apparaisse une croix vous sera présentée au centre de l'écran. Nous vous demandons \
-        de fixer cette croix en attendant l'apparation de la droite. La question posée ne variera pas pour chaque essai \
-        mais par groupe",
-    },
-    {
-      type: 'TEXT',
-      title: '',
-      description:
-        "Nous allons commencer par vous demander d'estimer:",
-      bloc: 'Quel côté de la droite est le plus long ?'
-    },
-    {
-      type: 'EXERCISE',
-      length: 918,
-      middleDivergence: 100,
-      question: 'Quel côté de la droite est le plus long ?'
-    },
-    {
-      type: 'EXERCISE',
-      length: 918,
-      middleDivergence: 80,
-      question: 'Quel côté de la droite est le plus long ?'
-    },
-    {
-      type: 'EXERCISE',
-      length: 918,
-      middleDivergence: -80,
-      question: 'Quel côté de la droite est le plus long ?'
-    },
-    {
-      type: 'TEXT',
-      title: '',
-      description:
-        'Nous allons désormais faire le même exercice mais vous devrez indiquer quel côté de la droite est le plus court. \
-        Toujours avec les fleches du clavier. Une croix apparaîtra encore sur l\'écran avant l\'apparition de la doite \
-        qu\'il faudra fixer',
-    },
-    {
-      type: 'TEXT',
-      title: '',
-      description:
-        'Nous allons donc vous demander cette fois-ci d\'estimer:',
-      bloc: 'Quel côté de la droite est le plus court ?'
-    },
-    {
-      type: 'EXERCISE',
-      length: 92,
-      middleDivergence: -15,
-      question: 'Quel côté de la droite est le plus court ?'
-    },
-    {
-      type: 'EXERCISE',
-      length: 92,
-      middleDivergence: 20,
-      question: 'Quel côté de la droite est le plus court ?'
-    },
-    {
-      type: 'EXERCISE',
-      length: 92,
-      middleDivergence: -15,
-      question: 'Quel côté de la droite est le plus court ?'
-    },
-    {
-      type: 'TEXT',
-      title: "Fin de l'entrainement",
-      description:
-        "L'essai est terminé et le test va débuter. N'hésitez pas à poser des questions si besoin avant de débuter",
-    },
-    {
-      type: 'TEXT',
-      title: 'Résultats du test',
-      description:
-        'Les résultats du test sont les suivants: ',
-      bloc: Array.from(userResponseMap.values()).join(','),
-    },
+    ...makeScenario(),
+    // {
+    //   type: 'TEXT',
+    //   title: 'Résultats du test',
+    //   description: 'Les résultats du test sont les suivants: ',
+    //   bloc: displayResponses(),
+    // },
   ];
 
   useEffect(() => {
@@ -129,39 +35,54 @@ const Home = () => {
     if (step < scenarioTestList.length) {
       setCurrentStepPage(scenarioTestList[step]);
     } else {
-      console.log(userResponseMap);
+      exportResult();
     }
   }, [step]);
 
-  const storeResult = (testResponse: TestResponse) => {
-    if (testResponse !== TestResponse.NONE) {
-      setUserResponseMap((map) => new Map(map.set(step, testResponse)));
-      setStep((step) => step + 1);
+  function displayResponses() {
+    let responseToDisplay = '';
+
+    for (const [index, value] of userResponseMap) {
+      responseToDisplay += `${index} : [
+        ${value.response},
+        ${value.lengthStimuli},
+        ${value.positionStimuli},
+        'none',
+        'none',
+      ]\n`;
     }
-  };
+    return responseToDisplay;
+  }
 
-  const hasUserAnsweredCurrentExercise = () => {
-    console.log('userResponseMap.get(step) : ', userResponseMap.get(step));
-    return (
-      currentStepPage?.type === 'EXERCISE' &&
-      userResponseMap.has(step) &&
-      userResponseMap.get(step) !== TestResponse.NONE
-    );
-  };
-
-  const arrowKeysHandler = (event: KeyboardEvent) => {
-    event.preventDefault();
-
-    if (
-      ESCAPE_KEYS.includes(String(event.code)) &&
-      step < scenarioTestList.length &&
-      (currentStepPage?.type === 'TEXT' || hasUserAnsweredCurrentExercise())
-    ) {
-      setStep((step) => step + 1);
+  function exportResult() {
+    const columns = [
+      'Réponse du participant',
+      'Longueur du stimulus',
+      'Placement du stimulus',
+      'Sons',
+      'Orientation du son',
+    ];
+    const rows: string[][] = [];
+    for (const [, value] of userResponseMap) {
+      rows.push([
+        value.response,
+        value.lengthStimuli,
+        value.positionStimuli,
+        'none',
+        'none',
+      ]);
     }
-  };
+    Statistics.generateFile(user, columns, rows);
+  }
 
-  useEventListener('keydown', arrowKeysHandler);
+  function sendResult(testResponse: TestResponse) {
+    setUserResponseMap((map) => new Map(map.set(step, testResponse)));
+    next();
+  }
+
+  function next() {
+    setStep((step) => step + 1);
+  }
 
   const displayScenario = () => {
     if (!currentStepPage) return null;
@@ -172,6 +93,7 @@ const Home = () => {
           title={currentStepPage.title}
           description={currentStepPage.description}
           bloc={currentStepPage?.bloc}
+          next={next}
         />
       );
     }
@@ -181,7 +103,7 @@ const Home = () => {
         stimuliLength={currentStepPage.length}
         middleDivergence={currentStepPage.middleDivergence}
         question={currentStepPage.question}
-        sendResult={storeResult}
+        sendResult={sendResult}
       />
     );
   };

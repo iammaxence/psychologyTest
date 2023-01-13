@@ -6,7 +6,6 @@ import useWindowDimensions from '../windowDimensions/WindowDimentions';
 import './LengthTestExercise.scss';
 import arrowLeft from '../../../../assets/arrow-left.png';
 import arrowRight from '../../../../assets/arrow-right.png';
-import space from '../../../../assets/space.png';
 import { TestResponse } from './TestResponse';
 import LeftRightAnswer from './leftRightAnswer/LeftRightAnswer';
 
@@ -31,11 +30,11 @@ const LengthTestExercise = ({
   sendResult,
 }: PropsLengthTestExercise) => {
   const ESCAPE_KEYS = ['ArrowRight', 'ArrowLeft'];
-  const ESCAPE_KEY_RESULT = ['Space'];
+  const ESCAPE_KEY_RESULT = ['ArrowRight'];
 
   const { width } = useWindowDimensions();
   const [step, setStep] = useState<number>(0);
-  const [userAnswer, setUserAnwer] = useState<TestResponse>(TestResponse.NONE);
+  const [userAnswer, setUserAnwer] = useState<TestResponse>();
   const [middleOfTheScreenX, setMiddleOfTheScreenX] = useState<number>(0);
 
   useEffect(() => {
@@ -58,27 +57,34 @@ const LengthTestExercise = ({
   const arrowKeysHandler = (event: KeyboardEvent) => {
     event.preventDefault();
 
-    if (ESCAPE_KEYS.includes(String(event.key)) && step === ExerciseStep.USER_RESPONSE_STEP) {
+    if (
+      ESCAPE_KEYS.includes(String(event.key)) &&
+      step === ExerciseStep.USER_RESPONSE_STEP
+    ) {
       const userResponseKey =
-          String(event.key) === 'ArrowRight'
-            ? TestResponse.RIGHT
-            : TestResponse.LEFT;
-      setUserAnwer(userResponseKey);
+        String(event.key) === 'ArrowRight' ? 'RIGHT' : 'LEFT';
+      setUserAnwer({
+        response: userResponseKey,
+        lengthStimuli: stimuliLength.toString(),
+        positionStimuli: stimuliPosition(),
+      });
       setStep(ExerciseStep.RESULT_TEST);
     }
 
-    if (ESCAPE_KEY_RESULT.includes(String(event.code)) && step === ExerciseStep.RESULT_TEST) {
-      sendResult(userAnswer);
-      setUserAnwer(TestResponse.NONE);
+    if (
+      ESCAPE_KEY_RESULT.includes(String(event.key)) &&
+      step === ExerciseStep.RESULT_TEST
+    ) {
+      sendResult(userAnswer!);
     }
   };
 
   useEventListener('keydown', arrowKeysHandler);
 
-  const isMiddleToRight = (): TestResponse => {
+  const stimuliPosition = (): string => {
     return middleOfTheScreenX < middleOfTheScreenX + middleDivergence
-      ? TestResponse.RIGHT
-      : TestResponse.LEFT;
+      ? 'RIGHT'
+      : 'LEFT';
   };
 
   const displayCurrentStep = () => {
@@ -96,7 +102,7 @@ const LengthTestExercise = ({
       case ExerciseStep.USER_RESPONSE_STEP:
         return (
           <div className="lengthTextExercise--text">
-            <p> { question } </p>
+            <p> {question} </p>
             <div className="lengthTextExercise--order-img">
               <img
                 className="lengthTextExercise--image"
@@ -120,12 +126,12 @@ const LengthTestExercise = ({
         return (
           <div className="lengthTextExercise--text">
             <span>La réponse est </span>
-            <LeftRightAnswer answer={isMiddleToRight()} />
+            <LeftRightAnswer answer={stimuliPosition()} />
             <div className="explanatoryText--bloc">
               <img
                 className="explanatoryText--image"
-                src={space}
-                alt="space"
+                src={arrowRight}
+                alt="arrow-right"
                 width={60}
                 height={60}
               />

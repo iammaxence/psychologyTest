@@ -1,5 +1,3 @@
-/* eslint global-require: off, no-console: off, promise/always-return: off */
-
 /**
  * This module executes inside of electron's main process. You can start
  * electron renderer process from here and communicate with the other processes
@@ -9,6 +7,7 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
+import fs from 'fs';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
@@ -24,6 +23,16 @@ class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
+
+/** CUSTOM IPC LISTENER */
+
+ipcMain.on('write-file', function (event, args) {
+  fs.writeFile(`src/stats/${args[0]}.csv`, args[1], function (error: any) {
+    if (error) throw error;
+  });
+});
+
+/**---------------------*/
 
 ipcMain.on('ipc-example', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;

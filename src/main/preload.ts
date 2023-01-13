@@ -1,9 +1,13 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
 export type Channels = 'ipc-example';
+export type FileWrite = 'write-file';
 
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {
+    writeFile(channel: FileWrite, args: unknown[]) {
+      ipcRenderer.send(channel, args);
+    },
     sendMessage(channel: Channels, args: unknown[]) {
       ipcRenderer.send(channel, args);
     },

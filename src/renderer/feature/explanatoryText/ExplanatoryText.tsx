@@ -1,12 +1,31 @@
-import space from '../../../../assets/space.png';
+import arrowRight from '../../../../assets/arrow-right.png';
+import useEventListener from '../eventListener/EventListener';
 import './ExplanatoryText.scss';
 
 interface PropsExplanatoryText {
   title: string;
   description: string;
   bloc?: string;
+  next: () => void;
 }
-const ExplanatoryText = ({ title, description, bloc }: PropsExplanatoryText) => {
+const ExplanatoryText = ({
+  title,
+  description,
+  bloc,
+  next,
+}: PropsExplanatoryText) => {
+  const ESCAPE_KEYS = ['ArrowRight', 'ArrowLeft'];
+
+  const arrowKeysHandler = (event: KeyboardEvent) => {
+    event.preventDefault();
+
+    if (ESCAPE_KEYS.includes(String(event.key))) {
+      next();
+    }
+  };
+
+  useEventListener('keydown', arrowKeysHandler);
+
   const displayTitle = () => {
     if (title !== '') {
       return <h1 className="explanatoryText--title">{title}</h1>;
@@ -18,13 +37,15 @@ const ExplanatoryText = ({ title, description, bloc }: PropsExplanatoryText) => 
       <div className="explanatoryText--head">
         {displayTitle()}
         <p className="explanatoryText--description">{description}</p>
-        <p className='explanatoryText--description'>{bloc !== undefined  && bloc}</p>
+        <p className="explanatoryText--description">
+          {bloc !== undefined && bloc}
+        </p>
       </div>
       <div className="explanatoryText--bloc">
         <img
           className="explanatoryText--image"
-          src={space}
-          alt="space"
+          src={arrowRight}
+          alt="arrow-right"
           width={60}
           height={60}
         />

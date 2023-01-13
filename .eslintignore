@@ -34,3 +34,4 @@ npm-debug.log.*
 .erb
 .eslintrc.js
 src/renderer/index.tsx
+src/main/main.ts

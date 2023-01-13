@@ -1,5 +1,5 @@
-export enum TestResponse {
-  LEFT = 'LEFT',
-  RIGHT = 'RIGHT',
-  NONE = 'NONE',
-}
+export type TestResponse = {
+  response: string;
+  lengthStimuli: string;
+  positionStimuli: string;
+};
