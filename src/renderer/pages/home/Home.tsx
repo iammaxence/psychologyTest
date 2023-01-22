@@ -16,15 +16,7 @@ const Home = () => {
   >(new Map());
   const user = useSelector(getUserSelector);
 
-  const scenarioTestList: Scenario[] = [
-    ...makeScenario(),
-    // {
-    //   type: 'TEXT',
-    //   title: 'Résultats du test',
-    //   description: 'Les résultats du test sont les suivants: ',
-    //   bloc: displayResponses(),
-    // },
-  ];
+  const scenarioTestList: Scenario[] = makeScenario();
 
   useEffect(() => {
     //Data storage => use this :  https://github.com/sindresorhus/electron-store
@@ -38,21 +30,6 @@ const Home = () => {
       exportResult();
     }
   }, [step]);
-
-  function displayResponses() {
-    let responseToDisplay = '';
-
-    for (const [index, value] of userResponseMap) {
-      responseToDisplay += `${index} : [
-        ${value.response},
-        ${value.lengthStimuli},
-        ${value.positionStimuli},
-        'none',
-        'none',
-      ]\n`;
-    }
-    return responseToDisplay;
-  }
 
   function exportResult() {
     const columns = [

@@ -14,7 +14,7 @@ const ExplanatoryText = ({
   bloc,
   next,
 }: PropsExplanatoryText) => {
-  const ESCAPE_KEYS = ['ArrowRight', 'ArrowLeft'];
+  const ESCAPE_KEYS = ['ArrowRight'];
 
   const arrowKeysHandler = (event: KeyboardEvent) => {
     event.preventDefault();

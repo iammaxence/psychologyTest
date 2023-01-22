@@ -3,7 +3,7 @@
   width: 100px;
   border-radius: 6px;
   transition: all 1s ease;
-  background-color: #5b6dcd;
+  background-color: #d0dfd5;
   border: none;
   color: white;
   cursor: pointer;
@@ -13,6 +13,6 @@
   }
 
   &:disabled {
-    opacity: 30%;
+    background-color: grey;
   }
 }
