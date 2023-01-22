@@ -7,7 +7,7 @@ interface ScenarioText {
   bloc?: string;
 }
 
-interface ScenarioExcercise {
+export interface ScenarioExcercise {
   type: 'EXERCISE';
   length: number;
   middleDivergence: number;

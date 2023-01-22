@@ -7,6 +7,7 @@ import Statistics from 'renderer/feature/statistics/Statistics';
 import { getUserSelector } from 'renderer/store/auth';
 import './Home.scss';
 import { Scenario, makeScenario } from 'renderer/feature/scenario/Scenario';
+import Bloc from '../bloc/Bloc';
 
 const Home = () => {
   const [step, setStep] = useState(0);
@@ -17,6 +18,8 @@ const Home = () => {
   const user = useSelector(getUserSelector);
 
   const scenarioTestList: Scenario[] = makeScenario();
+
+  const [menuSelection, setMenuSelection] = useState(0);
 
   useEffect(() => {
     //Data storage => use this :  https://github.com/sindresorhus/electron-store
@@ -61,7 +64,7 @@ const Home = () => {
     setStep((step) => step + 1);
   }
 
-  const displayScenario = () => {
+  const displayTestScenario = () => {
     if (!currentStepPage) return null;
 
     if (currentStepPage.type === 'TEXT') {
@@ -85,7 +88,51 @@ const Home = () => {
     );
   };
 
-  return <div className="home">{displayScenario()}</div>;
+  const displayMenuSelection = () => {
+    switch (menuSelection) {
+      case 1:
+        return displayTestScenario();
+      case 2:
+        return (
+          <Bloc
+            index={0}
+            exerciseList={[
+              {
+                type: 'EXERCISE',
+                length: 918,
+                middleDivergence: 100,
+                question: 'Quel côté de la droite est le plus long ?',
+              },
+              {
+                type: 'EXERCISE',
+                length: 300,
+                middleDivergence: -100,
+                question: 'Quel côté de la droite est le plus long ?',
+              },
+              {
+                type: 'EXERCISE',
+                length: 100,
+                middleDivergence: 10,
+                question: 'Quel côté de la droite est le plus long ?',
+              },
+            ]}
+            done={() => {
+              'test';
+            }}
+          />
+        );
+      default:
+        return (
+          <div>
+            <h1>Choix du menu</h1>
+            <button onClick={() => setMenuSelection(1)}>Go to test</button>
+            <button onClick={() => setMenuSelection(2)}>Go to bloc</button>
+          </div>
+        );
+    }
+  };
+
+  return <div className="home">{displayMenuSelection()}</div>;
 };
 
 export default Home;
