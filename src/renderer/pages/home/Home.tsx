@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import ExplanatoryText from 'renderer/feature/explanatoryText/ExplanatoryText';
 import LengthTestExercise from 'renderer/feature/lengthTestExercise/LengthTestExercise';
@@ -8,6 +8,7 @@ import { getUserSelector } from 'renderer/store/auth';
 import './Home.scss';
 import { Scenario, makeScenario } from 'renderer/feature/scenario/Scenario';
 import Bloc from '../bloc/Bloc';
+import Menu from 'renderer/components/menu/menu';
 
 const Home = () => {
   const [step, setStep] = useState(0);
@@ -54,6 +55,11 @@ const Home = () => {
     }
     Statistics.generateFile(user, columns, rows);
   }
+
+  const goToMenuSelection = useCallback(
+    (selection: number) => setMenuSelection(selection),
+    []
+  );
 
   function sendResult(testResponse: TestResponse) {
     setUserResponseMap((map) => new Map(map.set(step, testResponse)));
@@ -122,13 +128,7 @@ const Home = () => {
           />
         );
       default:
-        return (
-          <div>
-            <h1>Choix du menu</h1>
-            <button onClick={() => setMenuSelection(1)}>Go to test</button>
-            <button onClick={() => setMenuSelection(2)}>Go to bloc</button>
-          </div>
-        );
+        return <Menu setMenuSelection={goToMenuSelection} />;
     }
   };
 

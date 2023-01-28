@@ -4,7 +4,7 @@ import './SimpleButton.scss';
 interface PropsSimpleButton {
   title: string;
   action: Function;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
 const SimpleButton = ({ title, action, disabled }: PropsSimpleButton) => {
