@@ -7,8 +7,8 @@ import Statistics from 'renderer/feature/statistics/Statistics';
 import { getUserSelector } from 'renderer/store/auth';
 import './Home.scss';
 import { Scenario, makeScenario } from 'renderer/feature/scenario/Scenario';
-import Bloc from '../bloc/Bloc';
-import Menu from 'renderer/components/menu/menu';
+import Menu from 'renderer/components/menu/Menu';
+import BlocManager from '../bloc/BlocManager';
 
 const Home = () => {
   const [step, setStep] = useState(0);
@@ -99,34 +99,7 @@ const Home = () => {
       case 1:
         return displayTestScenario();
       case 2:
-        return (
-          <Bloc
-            index={0}
-            exerciseList={[
-              {
-                type: 'EXERCISE',
-                length: 918,
-                middleDivergence: 100,
-                question: 'Quel côté de la droite est le plus long ?',
-              },
-              {
-                type: 'EXERCISE',
-                length: 300,
-                middleDivergence: -100,
-                question: 'Quel côté de la droite est le plus long ?',
-              },
-              {
-                type: 'EXERCISE',
-                length: 100,
-                middleDivergence: 10,
-                question: 'Quel côté de la droite est le plus long ?',
-              },
-            ]}
-            done={() => {
-              'test';
-            }}
-          />
-        );
+        return <BlocManager />;
       default:
         return <Menu setMenuSelection={goToMenuSelection} />;
     }
