@@ -44,6 +44,9 @@ const BlocManager = () => {
   const [currentBloc, setCurrentBloc] = useState<ScenarioExcercise[]>([]);
   const [restBlocList, setRestBlocList] =
     useState<ScenarioExcercise[][]>(blocList);
+  const [responseForBlocManager, setResponseForBlocManager] = useState<
+    Map<number, Map<number, TestResponse>>
+  >(new Map());
 
   function selectRandomBloc(): number {
     const randomIndex = randomIntFromInterval(0, restBlocList.length - 1);
@@ -61,11 +64,17 @@ const BlocManager = () => {
   }
 
   function getResultHandler(responseList: Map<number, TestResponse>): void {
+    setResponseForBlocManager((map) => new Map(map.set(step, responseList)));
+
+    if (step == blocList.length) {
+      console.log(`----BLOC MANAGER NUMBER ${step}---- : `);
+      console.log(responseForBlocManager);
+      console.log('--------------------');
+    } else {
+      setStep((step) => step + 1);
+      selectNextRandomBloc();
+    }
     console.log(`----BLOC MANAGER NUMBER ${step}---- : `);
-    console.log(responseList);
-    console.log('--------------------');
-    setStep((step) => step + 1);
-    selectNextRandomBloc();
   }
 
   function continueTest(): void {
@@ -89,7 +98,7 @@ const BlocManager = () => {
     }
   };
 
-  return <div>{displayBloc()}</div>;
+  return displayBloc();
 };
 
 export default BlocManager;
