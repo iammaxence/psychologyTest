@@ -6,7 +6,7 @@ import useWindowDimensions from '../windowDimensions/WindowDimentions';
 import './LengthTestExercise.scss';
 import arrowLeft from '../../../../assets/arrow-left.png';
 import arrowRight from '../../../../assets/arrow-right.png';
-import { TestResponse } from './TestResponse';
+import { TestResponse } from './testResponse/TestResponse';
 import LeftRightAnswer from './leftRightAnswer/LeftRightAnswer';
 
 enum ExerciseStep {

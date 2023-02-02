@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import randomIntFromInterval from 'renderer/feature/random/Random';
 import { ScenarioExcercise } from 'renderer/feature/scenario/Scenario';
 import Bloc from './Bloc';
-import { TestResponse } from 'renderer/feature/lengthTestExercise/TestResponse';
+import { TestResponse } from 'renderer/feature/lengthTestExercise/testResponse/TestResponse';
+import { BlocResponse } from './BlocResponse';
 
 const BlocManager = () => {
   const bloc1: ScenarioExcercise[] = [
@@ -39,23 +40,25 @@ const BlocManager = () => {
       question: 'Quel côté de la droite est le plus court ?',
     },
   ];
+
   const blocList: ScenarioExcercise[][] = [bloc1, bloc2];
   const [step, setStep] = useState<number>(0);
   const [currentBloc, setCurrentBloc] = useState<ScenarioExcercise[]>([]);
-  const [restBlocList, setRestBlocList] =
-    useState<ScenarioExcercise[][]>(blocList);
-  const [responseForBlocManager, setResponseForBlocManager] = useState<
-    Map<number, Map<number, TestResponse>>
-  >(new Map());
+
+  const restBlocList = useRef<ScenarioExcercise[][]>(blocList);
+  const responseForBlocManager = useRef<BlocResponse>([]);
 
   function selectRandomBloc(): number {
-    const randomIndex = randomIntFromInterval(0, restBlocList.length - 1);
-    setCurrentBloc(restBlocList[randomIndex]);
+    const randomIndex = randomIntFromInterval(
+      0,
+      restBlocList.current.length - 1
+    );
+    setCurrentBloc(restBlocList.current[randomIndex]);
     return randomIndex;
   }
 
   function removeBloc(index: number): void {
-    setRestBlocList(restBlocList.filter((_, i) => i !== index));
+    restBlocList.current = restBlocList.current.filter((_, i) => i !== index);
   }
 
   function selectNextRandomBloc(): void {
@@ -63,18 +66,15 @@ const BlocManager = () => {
     removeBloc(index);
   }
 
-  function getResultHandler(responseList: Map<number, TestResponse>): void {
-    setResponseForBlocManager((map) => new Map(map.set(step, responseList)));
+  function getResultHandler(responseList: TestResponse[]): void {
+    responseForBlocManager.current.push({ step, responseList });
+    selectNextRandomBloc();
 
-    if (step == blocList.length) {
-      console.log(`----BLOC MANAGER NUMBER ${step}---- : `);
+    if (step >= blocList.length - 1) {
       console.log(responseForBlocManager);
-      console.log('--------------------');
-    } else {
-      setStep((step) => step + 1);
-      selectNextRandomBloc();
     }
-    console.log(`----BLOC MANAGER NUMBER ${step}---- : `);
+
+    setStep((step) => step + 1);
   }
 
   function continueTest(): void {
@@ -86,7 +86,7 @@ const BlocManager = () => {
   }, []);
 
   const displayBloc = () => {
-    if (currentBloc && currentBloc.length > 0 && step % 2 == 0) {
+    if (currentBloc && currentBloc.length > 0) {
       return <Bloc exerciseList={currentBloc} getResult={getResultHandler} />;
     } else {
       return (

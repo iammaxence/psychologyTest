@@ -1,17 +1,33 @@
 # Psycology Test
 
-nothing for now..
+/!\ The software is under development /!\
 
-## Must do it
+## Presentation
 
-## fix
+This software performs a series of projective tests, which are indirect assessment methods based on how a person reacts to non-verbal stimuli, such as pictures, drawings or stories. The patient's responses are then analyzed to reveal information about their unconscious motivations, fears and desires. It also provides detailed reports to help professionals understand the results of their projective tests.
+
+(insert gif)
+
+## How it's work
+
+Nothing for now..
+
+## Fix
 
 - Make a type for 'RIGHT' and 'LEFT
 - Init TestResponse in LengthTestExcercise ?
 
-## Do ASAP
+### Do ASAP
 
 - Get all stats from all blocks (user making to much time to respond need to be indicate)
-- In BlocManager step is share between the pause and the blocManager number. When there is a pause, indexBlocManager = step+1 but blocManager is index=step
+  - In BlocManager step is share between the pause and the blocManager number. When there is a pause, indexBlocManager = step+1 but blocManager is index=step
+  - refacto "getResultHandler"
+  - handle pause between bloc
 - Add the sound exercise
 - invert colors for certain blocs
+
+## Stats
+
+stats:
+Blocs: [{1 : [left, right..]}, {2: [left, right..]}]
+exercices : [{left, 100, right}..]

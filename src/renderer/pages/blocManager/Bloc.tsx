@@ -1,31 +1,29 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import LengthTestExercise from 'renderer/feature/lengthTestExercise/LengthTestExercise';
-import { TestResponse } from 'renderer/feature/lengthTestExercise/TestResponse';
+import { TestResponse } from 'renderer/feature/lengthTestExercise/testResponse/TestResponse';
 import randomIntFromInterval from 'renderer/feature/random/Random';
 import { ScenarioExcercise } from 'renderer/feature/scenario/Scenario';
 
 interface PropsBloc {
   exerciseList: ScenarioExcercise[];
-  getResult: (responseList: Map<number, TestResponse>) => void;
+  getResult: (responseList: TestResponse[]) => void;
 }
 const Bloc = ({ exerciseList, getResult }: PropsBloc) => {
-  const [step, setStep] = useState(0);
-  const [userResponseMap, setUserResponseMap] = useState<
-    Map<number, TestResponse>
-  >(new Map());
   const [currentExercise, setCurrentExercise] = useState<
     ScenarioExcercise | undefined
   >();
 
   const restExcerciseList = useRef<ScenarioExcercise[]>([]);
+  const userResponseList = useRef<TestResponse[]>([]);
 
   useEffect(() => {
-    console.log('--- BLOC COMPONENT ---');
-    console.log(exerciseList.length);
-    console.log(restExcerciseList.current.length);
-    console.log('--------------------');
-    initRestExerciceList();
+    init();
   }, [exerciseList]);
+
+  function init(): void {
+    initRestExerciceList();
+    userResponseList.current = [];
+  }
 
   function initRestExerciceList(): void {
     if (restExcerciseList.current.length == 0) {
@@ -51,17 +49,16 @@ const Bloc = ({ exerciseList, getResult }: PropsBloc) => {
 
   function nextExercise() {
     if (restExcerciseList.current.length == 0) {
-      console.log('----BLOC DONE----');
-      getResult(userResponseMap);
+      console.log(userResponseList.current);
+      getResult(userResponseList.current);
     } else {
-      setStep((step) => step + 1);
       const randomIndex = selectRandomExercise();
       removeExercise(randomIndex);
     }
   }
 
   function getResultHandler(testResponse: TestResponse) {
-    setUserResponseMap((map) => new Map(map.set(step, testResponse)));
+    userResponseList.current.push(testResponse);
     nextExercise();
   }
 

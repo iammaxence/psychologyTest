@@ -22,7 +22,7 @@ const Login = () => {
 
   return (
     <div className="login">
-      <h1> Login </h1>
+      <h1> Bienvenue </h1>
       <InputButton
         setInputValue={setInputValue}
         buttonAction={submit}

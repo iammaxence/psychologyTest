@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import ExplanatoryText from 'renderer/feature/explanatoryText/ExplanatoryText';
 import LengthTestExercise from 'renderer/feature/lengthTestExercise/LengthTestExercise';
-import { TestResponse } from 'renderer/feature/lengthTestExercise/TestResponse';
+import { TestResponse } from 'renderer/feature/lengthTestExercise/testResponse/TestResponse';
 import { Scenario, makeScenario } from 'renderer/feature/scenario/Scenario';
 
 interface PropsTrainingTest {

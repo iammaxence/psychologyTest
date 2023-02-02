@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import ExplanatoryText from 'renderer/feature/explanatoryText/ExplanatoryText';
 import LengthTestExercise from 'renderer/feature/lengthTestExercise/LengthTestExercise';
-import { TestResponse } from 'renderer/feature/lengthTestExercise/TestResponse';
+import { TestResponse } from 'renderer/feature/lengthTestExercise/testResponse/TestResponse';
 import Statistics from 'renderer/feature/statistics/Statistics';
 import { getUserSelector } from 'renderer/store/auth';
 import './Home.scss';
