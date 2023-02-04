@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import LengthTestExercise from 'renderer/feature/lengthTestExercise/LengthTestExercise';
 import { TestResponse } from 'renderer/feature/lengthTestExercise/testResponse/TestResponse';
 import randomIntFromInterval from 'renderer/feature/random/Random';
-import { ScenarioExcercise } from 'renderer/feature/scenario/Scenario';
+import { ScenarioExcercise } from 'renderer/data/Scenario';
 
 interface PropsBloc {
   exerciseList: ScenarioExcercise[];
@@ -49,7 +49,6 @@ const Bloc = ({ exerciseList, getResult }: PropsBloc) => {
 
   function nextExercise() {
     if (restExcerciseList.current.length == 0) {
-      console.log(userResponseList.current);
       getResult(userResponseList.current);
     } else {
       const randomIndex = selectRandomExercise();

@@ -1,52 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
 import randomIntFromInterval from 'renderer/feature/random/Random';
-import { ScenarioExcercise } from 'renderer/feature/scenario/Scenario';
+import { ScenarioExcercise } from 'renderer/data/Scenario';
 import Bloc from './Bloc';
 import { TestResponse } from 'renderer/feature/lengthTestExercise/testResponse/TestResponse';
 import { BlocResponse } from './BlocResponse';
+import Pause from 'renderer/components/pause/Pause';
+import { makeBlocList } from 'renderer/data/BlocList';
 
-const BlocManager = () => {
-  const bloc1: ScenarioExcercise[] = [
-    {
-      type: 'EXERCISE',
-      length: 918,
-      middleDivergence: 100,
-      question: 'Quel côté de la droite est le plus long ?',
-    },
-    {
-      type: 'EXERCISE',
-      length: 300,
-      middleDivergence: -100,
-      question: 'Quel côté de la droite est le plus long ?',
-    },
-    {
-      type: 'EXERCISE',
-      length: 100,
-      middleDivergence: 10,
-      question: 'Quel côté de la droite est le plus long ?',
-    },
-  ];
-  const bloc2: ScenarioExcercise[] = [
-    {
-      type: 'EXERCISE',
-      length: 918,
-      middleDivergence: -150,
-      question: 'Quel côté de la droite est le plus court ?',
-    },
-    {
-      type: 'EXERCISE',
-      length: 100,
-      middleDivergence: -10,
-      question: 'Quel côté de la droite est le plus court ?',
-    },
-  ];
-
-  const blocList: ScenarioExcercise[][] = [bloc1, bloc2];
+interface PropsBlocManager {
+  sendData: (data: BlocResponse[]) => void;
+}
+const BlocManager = ({ sendData }: PropsBlocManager) => {
+  const blocList: ScenarioExcercise[][] = makeBlocList();
   const [step, setStep] = useState<number>(0);
   const [currentBloc, setCurrentBloc] = useState<ScenarioExcercise[]>([]);
+  const [isPause, setIsPause] = useState<boolean>(false);
 
   const restBlocList = useRef<ScenarioExcercise[][]>(blocList);
-  const responseForBlocManager = useRef<BlocResponse>([]);
+  const responseForBlocManager = useRef<BlocResponse[]>([]);
 
   function selectRandomBloc(): number {
     const randomIndex = randomIntFromInterval(
@@ -71,13 +42,9 @@ const BlocManager = () => {
     selectNextRandomBloc();
 
     if (step >= blocList.length - 1) {
-      console.log(responseForBlocManager);
+      sendData(responseForBlocManager.current);
     }
 
-    setStep((step) => step + 1);
-  }
-
-  function continueTest(): void {
     setStep((step) => step + 1);
   }
 
@@ -85,16 +52,25 @@ const BlocManager = () => {
     selectNextRandomBloc();
   }, []);
 
+  useEffect(() => {
+    if (step != 0 && step % 2 == 0) {
+      setIsPause(true);
+    }
+  }, [step]);
+
+  function blocExists() {
+    return currentBloc && currentBloc.length > 0;
+  }
+
+  function stopPause() {
+    setIsPause(false);
+  }
+
   const displayBloc = () => {
-    if (currentBloc && currentBloc.length > 0) {
+    if (blocExists() && !isPause) {
       return <Bloc exerciseList={currentBloc} getResult={getResultHandler} />;
     } else {
-      return (
-        <div>
-          <h1>Pause</h1>
-          <button onClick={continueTest}> Reprendre </button>
-        </div>
-      );
+      return <Pause stopPause={stopPause} />;
     }
   };
 

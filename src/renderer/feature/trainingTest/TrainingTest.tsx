@@ -2,13 +2,9 @@ import { useCallback, useEffect, useState } from 'react';
 import ExplanatoryText from 'renderer/feature/explanatoryText/ExplanatoryText';
 import LengthTestExercise from 'renderer/feature/lengthTestExercise/LengthTestExercise';
 import { TestResponse } from 'renderer/feature/lengthTestExercise/testResponse/TestResponse';
-import { Scenario, makeScenario } from 'renderer/feature/scenario/Scenario';
+import { Scenario, makeScenario } from 'renderer/data/Scenario';
 
-interface PropsTrainingTest {
-  sendResult(testResponse: TestResponse): void;
-}
-
-const TrainingTest = ({ sendResult }: PropsTrainingTest) => {
+const TrainingTest = () => {
   const [step, setStep] = useState(0);
   const [currentStepPage, setCurrentStepPage] = useState<Scenario | null>(null);
 
@@ -20,7 +16,6 @@ const TrainingTest = ({ sendResult }: PropsTrainingTest) => {
   }, []);
 
   useEffect(() => {
-    console.log('Step change');
     if (step < scenarioTestList.length) {
       setCurrentStepPage(scenarioTestList[step]);
     } else {

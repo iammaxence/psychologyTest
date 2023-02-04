@@ -7,34 +7,43 @@ import Statistics from 'renderer/feature/statistics/Statistics';
 import { getUserSelector } from 'renderer/store/auth';
 import './Home.scss';
 import Menu from 'renderer/components/menu/Menu';
-import BlocManager from '../blocManager/BlocManager';
-import TrainingTest from '../trainingTest/TrainingTest';
+import BlocManager from '../../feature/blocManager/BlocManager';
+import TrainingTest from '../../feature/trainingTest/TrainingTest';
+import { BlocResponse } from 'renderer/feature/blocManager/BlocResponse';
 
 const Home = () => {
-  // const user = useSelector(getUserSelector);
+  const user = useSelector(getUserSelector);
 
   const [menuSelection, setMenuSelection] = useState(0);
 
-  // function exportResult() {
-  //   const columns = [
-  //     'Réponse du participant',
-  //     'Longueur du stimulus',
-  //     'Placement du stimulus',
-  //     'Sons',
-  //     'Orientation du son',
-  //   ];
-  //   const rows: string[][] = [];
-  //   for (const [, value] of userResponseMap) {
-  //     rows.push([
-  //       value.response,
-  //       value.lengthStimuli,
-  //       value.positionStimuli,
-  //       'none',
-  //       'none',
-  //     ]);
-  //   }
-  //   Statistics.generateFile(user, columns, rows);
-  // }
+  function exportResult(data: BlocResponse[]) {
+    const allResponse = blocResponseListToResponseList(data);
+    console.log('All response: ', allResponse);
+    const rows: string[][] = [];
+    for (const value of allResponse) {
+      rows.push([
+        value.response,
+        value.lengthStimuli,
+        value.positionStimuli,
+        'none',
+        'none',
+      ]);
+    }
+
+    const columns = [
+      'Réponse du participant',
+      'Longueur du stimulus',
+      'Placement du stimulus',
+      'Sons',
+      'Orientation du son',
+    ];
+    Statistics.generateFile(user, columns, rows);
+  }
+
+  function blocResponseListToResponseList(data: BlocResponse[]) {
+    console.log('response data: ', data);
+    return data.flatMap((blocResponse) => blocResponse.responseList);
+  }
 
   const goToMenuSelection = useCallback(
     (selection: number) => setMenuSelection(selection),
@@ -46,7 +55,7 @@ const Home = () => {
       case 1:
         return <TrainingTest sendResult={() => ''} />;
       case 2:
-        return <BlocManager />;
+        return <BlocManager sendData={exportResult} />;
       default:
         return <Menu setMenuSelection={goToMenuSelection} />;
     }
