@@ -12,9 +12,14 @@ This software performs a series of projective tests, which are indirect assessme
 
 Nothing for now..
 
+## Install
+
+Incompatibility of eslint-config-erb@"^4.0.4" with react v18.
+
+1. npm i --force
+
 ## Fix
 
-- Make a type for 'RIGHT' and 'LEFT
 - Init TestResponse in LengthTestExcercise ?
 
 ### Do ASAP
@@ -23,6 +28,7 @@ Nothing for now..
   - refacto "getResultHandler" of BlocManager
 - Add the sound exercise
 - invert colors for certain blocs
+- Stats: Longueur du stimulus = Petit | Grand
 
 ## Stats
 

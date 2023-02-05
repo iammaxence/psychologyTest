@@ -1,23 +1,33 @@
 import { useEffect, useRef, useState } from 'react';
 import randomIntFromInterval from 'renderer/feature/random/Random';
-import { ScenarioExcercise } from 'renderer/data/Scenario';
+import { ScenarioStimuli } from 'renderer/data/Scenario';
 import Bloc from './Bloc';
-import { TestResponse } from 'renderer/feature/lengthTestExercise/testResponse/TestResponse';
 import { BlocResponse } from './BlocResponse';
 import Pause from 'renderer/components/pause/Pause';
 import { makeBlocList } from 'renderer/data/BlocList';
+import { TestResponse } from '../exercise/stimuliExercise/testResponse/TestResponse';
 
 interface PropsBlocManager {
   sendData: (data: BlocResponse[]) => void;
 }
 const BlocManager = ({ sendData }: PropsBlocManager) => {
-  const blocList: ScenarioExcercise[][] = makeBlocList();
+  const blocList: ScenarioStimuli[][] = makeBlocList();
   const [step, setStep] = useState<number>(0);
-  const [currentBloc, setCurrentBloc] = useState<ScenarioExcercise[]>([]);
+  const [currentBloc, setCurrentBloc] = useState<ScenarioStimuli[]>([]);
   const [isPause, setIsPause] = useState<boolean>(false);
 
-  const restBlocList = useRef<ScenarioExcercise[][]>(blocList);
+  const restBlocList = useRef<ScenarioStimuli[][]>(blocList);
   const responseForBlocManager = useRef<BlocResponse[]>([]);
+
+  useEffect(() => {
+    selectNextRandomBloc();
+  }, []);
+
+  useEffect(() => {
+    if (step != 0 && step % 2 == 0) {
+      setIsPause(true);
+    }
+  }, [step]);
 
   function selectRandomBloc(): number {
     const randomIndex = randomIntFromInterval(
@@ -47,16 +57,6 @@ const BlocManager = ({ sendData }: PropsBlocManager) => {
 
     setStep((step) => step + 1);
   }
-
-  useEffect(() => {
-    selectNextRandomBloc();
-  }, []);
-
-  useEffect(() => {
-    if (step != 0 && step % 2 == 0) {
-      setIsPause(true);
-    }
-  }, [step]);
 
   function blocExists() {
     return currentBloc && currentBloc.length > 0;

@@ -1,4 +1,6 @@
-export type Scenario = ScenarioText | ScenarioExcercise;
+import { Orientation } from 'renderer/feature/exercise/Orientation';
+
+export type Scenario = ScenarioText | ScenarioStimuli | ScenarioHybrid;
 
 interface ScenarioText {
   type: 'TEXT';
@@ -7,10 +9,19 @@ interface ScenarioText {
   bloc?: string;
 }
 
-export interface ScenarioExcercise {
-  type: 'EXERCISE';
+export interface ScenarioStimuli {
+  type: 'STIMULI';
   length: number;
   middleDivergence: number;
+  question: string;
+}
+
+export interface ScenarioHybrid {
+  type: 'STIMULI';
+  length: number;
+  middleDivergence: number;
+  sound: string;
+  soundOrientation: Orientation;
   question: string;
 }
 
@@ -37,19 +48,19 @@ export const makeScenario = (): Scenario[] => [
     bloc: 'Quel côté de la droite est le plus long ?',
   },
   {
-    type: 'EXERCISE',
+    type: 'STIMULI',
     length: 918,
     middleDivergence: 100,
     question: 'Quel côté de la droite est le plus long ?',
   },
   {
-    type: 'EXERCISE',
+    type: 'STIMULI',
     length: 918,
     middleDivergence: 80,
     question: 'Quel côté de la droite est le plus long ?',
   },
   {
-    type: 'EXERCISE',
+    type: 'STIMULI',
     length: 918,
     middleDivergence: -80,
     question: 'Quel côté de la droite est le plus long ?',
@@ -69,19 +80,19 @@ export const makeScenario = (): Scenario[] => [
     bloc: 'Quel côté de la droite est le plus court ?',
   },
   {
-    type: 'EXERCISE',
+    type: 'STIMULI',
     length: 92,
     middleDivergence: -15,
     question: 'Quel côté de la droite est le plus court ?',
   },
   {
-    type: 'EXERCISE',
+    type: 'STIMULI',
     length: 92,
     middleDivergence: 20,
     question: 'Quel côté de la droite est le plus court ?',
   },
   {
-    type: 'EXERCISE',
+    type: 'STIMULI',
     length: 92,
     middleDivergence: -15,
     question: 'Quel côté de la droite est le plus court ?',

@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import Cross from 'renderer/components/cross/Cross';
 import Stimuli from 'renderer/components/stimuli/Stimuli';
-import useEventListener from '../eventListener/EventListener';
-import useWindowDimensions from '../windowDimensions/WindowDimentions';
-import './LengthTestExercise.scss';
-import arrowLeft from '../../../../assets/arrow-left.png';
-import arrowRight from '../../../../assets/arrow-right.png';
+import './StimuliExercise.scss';
+import arrowLeft from '../../../../../assets/arrow-left.png';
+import arrowRight from '../../../../../assets/arrow-right.png';
 import { TestResponse } from './testResponse/TestResponse';
+import useWindowDimensions from 'renderer/feature/windowDimensions/WindowDimentions';
+import useEventListener from 'renderer/feature/eventListener/EventListener';
 import LeftRightAnswer from './leftRightAnswer/LeftRightAnswer';
+import SoundExercise from '../soundExercise/SoundExcercise';
+import { Orientation } from '../Orientation';
 
 enum ExerciseStep {
   CROSS_STEP = 0,
@@ -16,19 +18,19 @@ enum ExerciseStep {
   RESULT_TEST = 3,
 }
 
-interface PropsLengthTestExercise {
+interface PropsStimuliExercise {
   stimuliLength: number;
   middleDivergence: number;
   question: string;
   sendResult: (testResponse: TestResponse) => void;
 }
 
-const LengthTestExercise = ({
+const StimuliExercise = ({
   stimuliLength,
   middleDivergence,
   question,
   sendResult,
-}: PropsLengthTestExercise) => {
+}: PropsStimuliExercise) => {
   const ESCAPE_KEYS = ['ArrowRight', 'ArrowLeft'];
   const ESCAPE_KEY_RESULT = ['ArrowRight'];
 
@@ -101,11 +103,11 @@ const LengthTestExercise = ({
         );
       case ExerciseStep.USER_RESPONSE_STEP:
         return (
-          <div className="lengthTextExercise--text">
+          <div className="stimuliExercise--text">
             <p> {question} </p>
-            <div className="lengthTextExercise--order-img">
+            <div className="stimuliExercise--order-img">
               <img
-                className="lengthTextExercise--image"
+                className="stimuliExercise--image"
                 src={arrowLeft}
                 alt="arrow-left"
                 width={100}
@@ -113,7 +115,7 @@ const LengthTestExercise = ({
               />
               <p> ou </p>
               <img
-                className="lengthTextExercise--image"
+                className="stimuliExercise--image"
                 src={arrowRight}
                 alt="arrow-right"
                 width={100}
@@ -124,7 +126,7 @@ const LengthTestExercise = ({
         );
       case ExerciseStep.RESULT_TEST:
         return (
-          <div className="lengthTextExercise--text">
+          <div className="stimuliExercise--text">
             <span>La réponse est </span>
             <LeftRightAnswer answer={stimuliPosition()} />
             <div className="explanatoryText--bloc">
@@ -144,7 +146,7 @@ const LengthTestExercise = ({
     }
   };
 
-  return <div className="lengthTextExercise">{displayCurrentStep()}</div>;
+  return <div className="stimuliExercise">{displayCurrentStep()}</div>;
 };
 
-export default LengthTestExercise;
+export default StimuliExercise;

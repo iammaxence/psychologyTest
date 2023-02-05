@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import ExplanatoryText from 'renderer/feature/explanatoryText/ExplanatoryText';
-import LengthTestExercise from 'renderer/feature/lengthTestExercise/LengthTestExercise';
-import { TestResponse } from 'renderer/feature/lengthTestExercise/testResponse/TestResponse';
 import { Scenario, makeScenario } from 'renderer/data/Scenario';
+import { TestResponse } from '../exercise/stimuliExercise/testResponse/TestResponse';
+import StimuliExercise from '../exercise/stimuliExercise/StimuliExercise';
 
 const TrainingTest = () => {
   const [step, setStep] = useState(0);
@@ -45,7 +45,7 @@ const TrainingTest = () => {
     }
 
     return (
-      <LengthTestExercise
+      <StimuliExercise
         stimuliLength={currentStepPage.length}
         middleDivergence={currentStepPage.middleDivergence}
         question={currentStepPage.question}

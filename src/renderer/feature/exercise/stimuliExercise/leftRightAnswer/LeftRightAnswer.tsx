@@ -1,5 +1,5 @@
-import arrowLeft from '../../../../../assets/arrow-left.png';
-import arrowRight from '../../../../../assets/arrow-right.png';
+import arrowLeft from '../../../../../../assets/arrow-left.png';
+import arrowRight from '../../../../../../assets/arrow-right.png';
 
 interface PropsLeftRightAnswer {
   answer: string;

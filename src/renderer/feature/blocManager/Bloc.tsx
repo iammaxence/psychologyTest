@@ -1,19 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import LengthTestExercise from 'renderer/feature/lengthTestExercise/LengthTestExercise';
-import { TestResponse } from 'renderer/feature/lengthTestExercise/testResponse/TestResponse';
 import randomIntFromInterval from 'renderer/feature/random/Random';
-import { ScenarioExcercise } from 'renderer/data/Scenario';
+import { ScenarioStimuli } from 'renderer/data/Scenario';
+import { TestResponse } from '../exercise/stimuliExercise/testResponse/TestResponse';
+import StimuliExercise from '../exercise/stimuliExercise/StimuliExercise';
 
 interface PropsBloc {
-  exerciseList: ScenarioExcercise[];
+  exerciseList: ScenarioStimuli[];
   getResult: (responseList: TestResponse[]) => void;
 }
 const Bloc = ({ exerciseList, getResult }: PropsBloc) => {
   const [currentExercise, setCurrentExercise] = useState<
-    ScenarioExcercise | undefined
+    ScenarioStimuli | undefined
   >();
 
-  const restExcerciseList = useRef<ScenarioExcercise[]>([]);
+  const restExcerciseList = useRef<ScenarioStimuli[]>([]);
   const userResponseList = useRef<TestResponse[]>([]);
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const Bloc = ({ exerciseList, getResult }: PropsBloc) => {
   function displayExercise() {
     if (currentExercise) {
       return (
-        <LengthTestExercise
+        <StimuliExercise
           stimuliLength={currentExercise.length}
           middleDivergence={currentExercise.middleDivergence}
           question={currentExercise.question}
