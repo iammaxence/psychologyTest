@@ -1,19 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import randomIntFromInterval from 'renderer/feature/random/Random';
-import { ScenarioStimuli } from 'renderer/data/Scenario';
+import { ScenarioHybrid } from 'renderer/data/Scenario';
 import { TestResponse } from '../exercise/stimuliExercise/testResponse/TestResponse';
 import StimuliExercise from '../exercise/stimuliExercise/StimuliExercise';
 
 interface PropsBloc {
-  exerciseList: ScenarioStimuli[];
+  exerciseList: ScenarioHybrid[];
   getResult: (responseList: TestResponse[]) => void;
 }
 const Bloc = ({ exerciseList, getResult }: PropsBloc) => {
   const [currentExercise, setCurrentExercise] = useState<
-    ScenarioStimuli | undefined
+    ScenarioHybrid | undefined
   >();
 
-  const restExcerciseList = useRef<ScenarioStimuli[]>([]);
+  const restExcerciseList = useRef<ScenarioHybrid[]>([]);
   const userResponseList = useRef<TestResponse[]>([]);
 
   useEffect(() => {
@@ -69,12 +69,16 @@ const Bloc = ({ exerciseList, getResult }: PropsBloc) => {
   function displayExercise() {
     if (currentExercise) {
       return (
-        <StimuliExercise
-          stimuliLength={currentExercise.length}
-          middleDivergence={currentExercise.middleDivergence}
-          question={currentExercise.question}
-          sendResult={getExerciceResult}
-        />
+        <div>
+          <StimuliExercise
+            stimuliLength={currentExercise.length}
+            middleDivergence={currentExercise.middleDivergence}
+            sound={currentExercise.sound}
+            soundOrientation={currentExercise.soundOrientation}
+            question={currentExercise.question}
+            sendResult={getExerciceResult}
+          />
+        </div>
       );
     }
   }

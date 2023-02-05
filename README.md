@@ -21,14 +21,16 @@ Incompatibility of eslint-config-erb@"^4.0.4" with react v18.
 ## Fix
 
 - Init TestResponse in LengthTestExcercise ?
+- Refacto stimuliExercise
 
 ### Do ASAP
 
 - Get all stats from all blocks (user making to much time to respond need to be indicate)
   - refacto "getResultHandler" of BlocManager
-- Add the sound exercise
 - invert colors for certain blocs
 - Stats: Longueur du stimulus = Petit | Grand
+- Menu with bloc 1 2 3 4 and bloc 2 1 4 3
+- Get stats sound
 
 ## Stats
 

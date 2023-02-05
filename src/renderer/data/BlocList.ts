@@ -1,7 +1,7 @@
-import { ScenarioStimuli } from 'renderer/data/Scenario';
+import { ScenarioHybrid, ScenarioStimuli } from 'renderer/data/Scenario';
 import dogbark from '../../../assets/sound/dog.mp3';
 
-const bloc1: ScenarioStimuli[] = [
+const bloc1: ScenarioHybrid[] = [
   {
     type: 'STIMULI',
     length: 918,
@@ -27,7 +27,7 @@ const bloc1: ScenarioStimuli[] = [
     question: 'Quel côté de la droite est le plus long ?',
   },
 ];
-const bloc2: ScenarioStimuli[] = [
+const bloc2: ScenarioHybrid[] = [
   {
     type: 'STIMULI',
     length: 918,
@@ -46,7 +46,7 @@ const bloc2: ScenarioStimuli[] = [
   },
 ];
 
-const bloc3: ScenarioStimuli[] = [
+const bloc3: ScenarioHybrid[] = [
   {
     type: 'STIMULI',
     length: 320,
@@ -57,4 +57,4 @@ const bloc3: ScenarioStimuli[] = [
   },
 ];
 
-export const makeBlocList = (): ScenarioStimuli[][] => [bloc1, bloc2, bloc3];
+export const makeBlocList = (): ScenarioHybrid[][] => [bloc1, bloc2, bloc3];

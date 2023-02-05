@@ -8,8 +8,8 @@ import { TestResponse } from './testResponse/TestResponse';
 import useWindowDimensions from 'renderer/feature/windowDimensions/WindowDimentions';
 import useEventListener from 'renderer/feature/eventListener/EventListener';
 import LeftRightAnswer from './leftRightAnswer/LeftRightAnswer';
-import SoundExercise from '../soundExercise/SoundExcercise';
 import { Orientation } from '../Orientation';
+import SoundExercise from '../soundExercise/SoundExcercise';
 
 enum ExerciseStep {
   CROSS_STEP = 0,
@@ -21,6 +21,8 @@ enum ExerciseStep {
 interface PropsStimuliExercise {
   stimuliLength: number;
   middleDivergence: number;
+  sound?: string;
+  soundOrientation?: Orientation;
   question: string;
   sendResult: (testResponse: TestResponse) => void;
 }
@@ -28,6 +30,8 @@ interface PropsStimuliExercise {
 const StimuliExercise = ({
   stimuliLength,
   middleDivergence,
+  sound,
+  soundOrientation,
   question,
   sendResult,
 }: PropsStimuliExercise) => {
@@ -89,18 +93,39 @@ const StimuliExercise = ({
       : 'LEFT';
   };
 
-  const displayCurrentStep = () => {
-    switch (step) {
-      case ExerciseStep.CROSS_STEP:
-        return <Cross size={10} />;
-      case ExerciseStep.STIMULI_STEP:
-        return (
+  const displayStimuli = () => {
+    if (sound && soundOrientation) {
+      return (
+        <div>
+          <SoundExercise
+            sound={sound}
+            soundOrientation={soundOrientation}
+            next={() => ''}
+          />
           <Stimuli
             id={1}
             size={stimuliLength}
             middleDivergence={middleDivergence}
           />
-        );
+        </div>
+      );
+    } else {
+      return (
+        <Stimuli
+          id={1}
+          size={stimuliLength}
+          middleDivergence={middleDivergence}
+        />
+      );
+    }
+  };
+
+  const displayCurrentStep = () => {
+    switch (step) {
+      case ExerciseStep.CROSS_STEP:
+        return <Cross size={10} />;
+      case ExerciseStep.STIMULI_STEP:
+        return displayStimuli();
       case ExerciseStep.USER_RESPONSE_STEP:
         return (
           <div className="stimuliExercise--text">
