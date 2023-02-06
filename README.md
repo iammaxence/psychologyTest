@@ -22,6 +22,7 @@ Incompatibility of eslint-config-erb@"^4.0.4" with react v18.
 
 - Init TestResponse in LengthTestExcercise ?
 - Refacto stimuliExercise
+  - Maybe two distinct components to separate sound et stimuli
 
 ### Do ASAP
 

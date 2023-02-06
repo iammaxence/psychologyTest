@@ -1,12 +1,12 @@
 import { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
-import Statistics from 'renderer/feature/statistics/Statistics';
+import Statistics from 'renderer/feature/utils/statistics/Statistics';
 import { getUserSelector } from 'renderer/store/auth';
 import './Home.scss';
 import Menu from 'renderer/components/menu/Menu';
 import BlocManager from '../../feature/blocManager/BlocManager';
 import TrainingTest from '../../feature/trainingTest/TrainingTest';
-import { BlocResponse } from 'renderer/feature/blocManager/BlocResponse';
+import { BlocResponse } from 'renderer/types/BlocResponse';
 
 const Home = () => {
   const user = useSelector(getUserSelector);

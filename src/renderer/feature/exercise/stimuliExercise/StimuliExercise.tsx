@@ -1,15 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Cross from 'renderer/components/cross/Cross';
 import Stimuli from 'renderer/components/stimuli/Stimuli';
 import './StimuliExercise.scss';
-import arrowLeft from '../../../../../assets/arrow-left.png';
-import arrowRight from '../../../../../assets/arrow-right.png';
-import { TestResponse } from './testResponse/TestResponse';
-import useWindowDimensions from 'renderer/feature/windowDimensions/WindowDimentions';
-import useEventListener from 'renderer/feature/eventListener/EventListener';
-import LeftRightAnswer from './leftRightAnswer/LeftRightAnswer';
-import { Orientation } from '../Orientation';
-import SoundExercise from '../soundExercise/SoundExcercise';
+import { TestResponse } from '../../../types/TestResponse';
+import useWindowDimensions from 'renderer/feature/utils/windowDimensions/WindowDimentions';
+import useEventListener from 'renderer/feature/utils/eventListener/EventListener';
+import { Orientation } from '../../../types/Orientation';
+import Sound from '../../sound/Sound';
+import Question from './question/Question';
+import Response from './response/Response';
 
 enum ExerciseStep {
   CROSS_STEP = 0,
@@ -40,10 +39,20 @@ const StimuliExercise = ({
 
   const { width } = useWindowDimensions();
   const [step, setStep] = useState<number>(0);
-  const [userAnswer, setUserAnwer] = useState<TestResponse>();
+  const userAnswer = useRef<TestResponse>();
   const [middleOfTheScreenX, setMiddleOfTheScreenX] = useState<number>(0);
 
   useEffect(() => {
+    const timer = initStepInCorrectOrder();
+
+    return () => clearTimeout(timer);
+  }, [stimuliLength, middleDivergence]);
+
+  useEffect(() => {
+    setMiddleOfTheScreenX(width / 2);
+  }, [width]);
+
+  function initStepInCorrectOrder() {
     setStep(ExerciseStep.CROSS_STEP);
 
     let timer = setTimeout(() => {
@@ -53,12 +62,8 @@ const StimuliExercise = ({
       setStep(ExerciseStep.USER_RESPONSE_STEP);
     }, 2000);
 
-    return () => clearTimeout(timer);
-  }, [stimuliLength, middleDivergence]);
-
-  useEffect(() => {
-    setMiddleOfTheScreenX(width / 2);
-  }, [width]);
+    return timer;
+  }
 
   const arrowKeysHandler = (event: KeyboardEvent) => {
     event.preventDefault();
@@ -67,21 +72,20 @@ const StimuliExercise = ({
       ESCAPE_KEYS.includes(String(event.key)) &&
       step === ExerciseStep.USER_RESPONSE_STEP
     ) {
-      const userResponseKey =
-        String(event.key) === 'ArrowRight' ? 'RIGHT' : 'LEFT';
-      setUserAnwer({
-        response: userResponseKey,
+      userAnswer.current = {
+        response: String(event.key) === 'ArrowRight' ? 'RIGHT' : 'LEFT',
         lengthStimuli: stimuliLength.toString(),
         positionStimuli: stimuliPosition(),
-      });
+      };
       setStep(ExerciseStep.RESULT_TEST);
     }
 
     if (
       ESCAPE_KEY_RESULT.includes(String(event.key)) &&
-      step === ExerciseStep.RESULT_TEST
+      step === ExerciseStep.RESULT_TEST &&
+      userAnswer.current
     ) {
-      sendResult(userAnswer!);
+      sendResult(userAnswer.current);
     }
   };
 
@@ -97,7 +101,7 @@ const StimuliExercise = ({
     if (sound && soundOrientation) {
       return (
         <div>
-          <SoundExercise
+          <Sound
             sound={sound}
             soundOrientation={soundOrientation}
             next={() => ''}
@@ -127,45 +131,9 @@ const StimuliExercise = ({
       case ExerciseStep.STIMULI_STEP:
         return displayStimuli();
       case ExerciseStep.USER_RESPONSE_STEP:
-        return (
-          <div className="stimuliExercise--text">
-            <p> {question} </p>
-            <div className="stimuliExercise--order-img">
-              <img
-                className="stimuliExercise--image"
-                src={arrowLeft}
-                alt="arrow-left"
-                width={100}
-                height={80}
-              />
-              <p> ou </p>
-              <img
-                className="stimuliExercise--image"
-                src={arrowRight}
-                alt="arrow-right"
-                width={100}
-                height={80}
-              />
-            </div>
-          </div>
-        );
+        return <Question question={question} />;
       case ExerciseStep.RESULT_TEST:
-        return (
-          <div className="stimuliExercise--text">
-            <span>La réponse est </span>
-            <LeftRightAnswer answer={stimuliPosition()} />
-            <div className="explanatoryText--bloc">
-              <img
-                className="explanatoryText--image"
-                src={arrowRight}
-                alt="arrow-right"
-                width={60}
-                height={60}
-              />
-              <p> pour continuer </p>
-            </div>
-          </div>
-        );
+        return <Response answer={stimuliPosition()} />;
       default:
         break;
     }

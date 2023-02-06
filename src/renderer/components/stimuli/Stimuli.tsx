@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import DrawShape from 'renderer/feature/drawShape/DrawShape';
-import useWindowDimensions from 'renderer/feature/windowDimensions/WindowDimentions';
+import DrawShape from 'renderer/feature/utils/drawShape/DrawShape';
+import useWindowDimensions from 'renderer/feature/utils/windowDimensions/WindowDimentions';
 import Point from './point/Point';
 import './Stimuli.scss';
 

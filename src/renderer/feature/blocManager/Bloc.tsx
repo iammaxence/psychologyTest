@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import randomIntFromInterval from 'renderer/feature/random/Random';
+import randomIntFromInterval from 'renderer/feature/utils/random/Random';
 import { ScenarioHybrid } from 'renderer/data/Scenario';
-import { TestResponse } from '../exercise/stimuliExercise/testResponse/TestResponse';
+import { TestResponse } from '../../types/TestResponse';
 import StimuliExercise from '../exercise/stimuliExercise/StimuliExercise';
 
 interface PropsBloc {

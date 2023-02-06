@@ -1,5 +1,5 @@
 import arrowRight from '../../../../assets/arrow-right.png';
-import useEventListener from '../eventListener/EventListener';
+import useEventListener from '../utils/eventListener/EventListener';
 import './ExplanatoryText.scss';
 
 interface PropsExplanatoryText {

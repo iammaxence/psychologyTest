@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import randomIntFromInterval from 'renderer/feature/random/Random';
+import randomIntFromInterval from 'renderer/feature/utils/random/Random';
 import { ScenarioStimuli } from 'renderer/data/Scenario';
 import Bloc from './Bloc';
-import { BlocResponse } from './BlocResponse';
+import { BlocResponse } from '../../types/BlocResponse';
 import Pause from 'renderer/components/pause/Pause';
 import { makeBlocList } from 'renderer/data/BlocList';
-import { TestResponse } from '../exercise/stimuliExercise/testResponse/TestResponse';
+import { TestResponse } from '../../types/TestResponse';
 
 interface PropsBlocManager {
   sendData: (data: BlocResponse[]) => void;

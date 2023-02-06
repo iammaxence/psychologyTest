@@ -1,5 +1,5 @@
 import Stimuli from 'renderer/components/stimuli/Stimuli';
-import randomIntFromInterval from '../random/Random';
+import randomIntFromInterval from '../utils/random/Random';
 
 const STIMULI_NUMBER = 6;
 

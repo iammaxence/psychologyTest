@@ -1,17 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-import { Orientation } from '../Orientation';
+import { Orientation } from '../../types/Orientation';
 
-interface PropsSoundExercise {
+interface PropsSound {
   sound: string;
   soundOrientation: Orientation;
   next: () => void;
 }
 
-const SoundExercise = ({
-  sound,
-  soundOrientation,
-  next,
-}: PropsSoundExercise) => {
+const Sound = ({ sound, soundOrientation, next }: PropsSound) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -62,4 +58,4 @@ const SoundExercise = ({
   return <audio ref={audioRef} crossOrigin="anonymous" src={sound} />;
 };
 
-export default SoundExercise;
+export default Sound;

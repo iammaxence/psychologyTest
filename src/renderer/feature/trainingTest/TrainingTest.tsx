@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import ExplanatoryText from 'renderer/feature/explanatoryText/ExplanatoryText';
 import { Scenario, makeScenario } from 'renderer/data/Scenario';
-import { TestResponse } from '../exercise/stimuliExercise/testResponse/TestResponse';
+import { TestResponse } from '../../types/TestResponse';
 import StimuliExercise from '../exercise/stimuliExercise/StimuliExercise';
 
 const TrainingTest = () => {

@@ -1,4 +1,4 @@
-import { Orientation } from 'renderer/feature/exercise/Orientation';
+import { Orientation } from 'renderer/types/Orientation';
 
 export type Scenario = ScenarioText | ScenarioStimuli | ScenarioHybrid;
 
