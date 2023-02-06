@@ -57,4 +57,5 @@ const bloc3: ScenarioHybrid[] = [
   },
 ];
 
-export const makeBlocList = (): ScenarioHybrid[][] => [bloc1, bloc2, bloc3];
+export const makeBlocListA = (): ScenarioHybrid[][] => [bloc1, bloc2, bloc3];
+export const makeBlocListB = (): ScenarioHybrid[][] => [bloc3, bloc1, bloc2];

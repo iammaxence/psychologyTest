@@ -7,6 +7,7 @@ import Menu from 'renderer/components/menu/Menu';
 import BlocManager from '../../feature/blocManager/BlocManager';
 import TrainingTest from '../../feature/trainingTest/TrainingTest';
 import { BlocResponse } from 'renderer/types/BlocResponse';
+import { makeBlocListA, makeBlocListB } from 'renderer/data/BlocList';
 
 const Home = () => {
   const user = useSelector(getUserSelector);
@@ -18,13 +19,7 @@ const Home = () => {
     console.log('All response: ', allResponse);
     const rows: string[][] = [];
     for (const value of allResponse) {
-      rows.push([
-        value.response,
-        value.lengthStimuli,
-        value.positionStimuli,
-        'none',
-        'none',
-      ]);
+      rows.push([value.response, value.lengthStimuli, value.positionStimuli]);
     }
 
     const columns = [
@@ -52,7 +47,13 @@ const Home = () => {
       case 1:
         return <TrainingTest />;
       case 2:
-        return <BlocManager sendData={exportResult} />;
+        return (
+          <BlocManager blocList={makeBlocListA()} sendData={exportResult} />
+        );
+      case 3:
+        return (
+          <BlocManager blocList={makeBlocListB()} sendData={exportResult} />
+        );
       default:
         return <Menu setMenuSelection={goToMenuSelection} />;
     }

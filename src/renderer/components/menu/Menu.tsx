@@ -15,9 +15,14 @@ const Menu = ({ setMenuSelection }: PropsMenu) => {
           action={() => setMenuSelection(1)}
         />
         <SimpleButton
-          title="Commencer le test"
+          title="Test 1"
           key={`Menu${2}`}
           action={() => setMenuSelection(2)}
+        />
+        <SimpleButton
+          title="Test 2"
+          key={`Menu${3}`}
+          action={() => setMenuSelection(3)}
         />
       </div>
     </div>
