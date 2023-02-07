@@ -20,23 +20,27 @@ Incompatibility of eslint-config-erb@"^4.0.4" with react v18.
 
 ## Fix
 
-- Init TestResponse in LengthTestExcercise ?
-- Refacto stimuliExercise
-  - Maybe two distinct components to separate sound et stimuli
+## Board
+
+- StimuliExercise
+
+  - Two distinct components to separate sound et stimuli
+  - Get stats sound
+  - Add param to invert colors for certain blocs
+
+- BlocManager
+
+  - Refacto "getResultHandler" of BlocManager (to be more explicit)
+
 - Menu
-  - give params ([title1, title2, etc..], setMenuSelection) to loop button
 
-### Do ASAP
+  - Menu with bloc 1 2 3 4 and bloc 2 1 4 3
 
-- Get all stats from all blocks (user making to much time to respond need to be indicate)
-  - refacto "getResultHandler" of BlocManager
-- invert colors for certain blocs
-- Stats: Longueur du stimulus = Petit | Grand
-- Menu with bloc 1 2 3 4 and bloc 2 1 4 3
-- Get stats sound
+- Stats
+  - "Petit" | "Grand" instead of the real length of the stimuli
+  - When user respond to late, put marker somewhere
 
 ## Stats
 
-stats:
 Blocs: [{1 : [left, right..]}, {2: [left, right..]}]
 exercices : [{left, 100, right}..]

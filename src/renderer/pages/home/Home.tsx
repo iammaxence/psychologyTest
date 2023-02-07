@@ -11,8 +11,9 @@ import { makeBlocListA, makeBlocListB } from 'renderer/data/BlocList';
 
 const Home = () => {
   const user = useSelector(getUserSelector);
-
   const [menuSelection, setMenuSelection] = useState(0);
+
+  const menuList = ["Commencer l'entrainement", 'Test 1', 'Test 2'];
 
   function exportResult(data: BlocResponse[]) {
     const allResponse = blocResponseListToResponseList(data);
@@ -55,7 +56,9 @@ const Home = () => {
           <BlocManager blocList={makeBlocListB()} sendData={exportResult} />
         );
       default:
-        return <Menu setMenuSelection={goToMenuSelection} />;
+        return (
+          <Menu menuList={menuList} setMenuSelection={goToMenuSelection} />
+        );
     }
   };
 
