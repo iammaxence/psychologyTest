@@ -8,9 +8,15 @@ interface PropsStimuli {
   id: number;
   size: number;
   middleDivergence: number;
+  reverseDiagonal?: boolean;
 }
 
-const Stimuli = ({ id, size, middleDivergence }: PropsStimuli) => {
+const Stimuli = ({
+  id,
+  size,
+  middleDivergence,
+  reverseDiagonal = false,
+}: PropsStimuli) => {
   const { width, height } = useWindowDimensions();
   const RECTANGLE_CANVAS_HEIGHT = 19;
 
@@ -26,7 +32,62 @@ const Stimuli = ({ id, size, middleDivergence }: PropsStimuli) => {
 
   useEffect(() => {
     drawCanvas();
-  }, [width, height, middleDivergence, drawShape]);
+  }, [width, height, middleDivergence, drawShape, reverseDiagonal]);
+
+  function drawMiddleLines(drawShape: DrawShape) {
+    // Vertical Middle line
+    drawShape.drawLine(
+      new Point(
+        width / 2 + middleDivergence,
+        height / 2 - RECTANGLE_CANVAS_HEIGHT / 2
+      ),
+      new Point(
+        width / 2 + middleDivergence,
+        height / 2 + RECTANGLE_CANVAS_HEIGHT / 2
+      )
+    );
+
+    // Horizontal Middle line
+    drawShape.drawLine(
+      new Point(rectangleCenterX(drawShape.getWidth(), size), height / 2),
+      new Point(
+        drawShape.getWidth() - rectangleCenterX(drawShape.getWidth(), size),
+        height / 2
+      )
+    );
+  }
+
+  function drawDiagonalRectangles(drawShape: DrawShape) {
+    if (!reverseDiagonal) {
+      // UP LEFT FILL RECTANGLE
+      drawShape.fillRectangle(
+        new Point(
+          rectangleCenterX(drawShape.getWidth(), size),
+          height / 2 - RECTANGLE_CANVAS_HEIGHT / 2
+        ),
+        new Point(size / 2 + middleDivergence, RECTANGLE_CANVAS_HEIGHT / 2)
+      );
+      // DOWN RIGHT FILL RECTANGLE
+      drawShape.fillRectangle(
+        new Point(width / 2 + middleDivergence, height / 2),
+        new Point(size / 2 - middleDivergence, RECTANGLE_CANVAS_HEIGHT / 2)
+      );
+    } else {
+      // DOWN LEFT FILL RECTANGLE
+      drawShape.fillRectangle(
+        new Point(rectangleCenterX(drawShape.getWidth(), size), height / 2),
+        new Point(size / 2 + middleDivergence, RECTANGLE_CANVAS_HEIGHT / 2)
+      );
+      // UP RIGHT FILL RECTANGLE
+      drawShape.fillRectangle(
+        new Point(
+          width / 2 + middleDivergence,
+          height / 2 - RECTANGLE_CANVAS_HEIGHT / 2
+        ),
+        new Point(size / 2 - middleDivergence, RECTANGLE_CANVAS_HEIGHT / 2)
+      );
+    }
+  }
 
   const drawCanvas = () => {
     if (drawShape) {
@@ -40,41 +101,8 @@ const Stimuli = ({ id, size, middleDivergence }: PropsStimuli) => {
         new Point(size, RECTANGLE_CANVAS_HEIGHT)
       );
 
-      // Vertical Middle line
-      drawShape.drawLine(
-        new Point(
-          width / 2 + middleDivergence,
-          height / 2 - RECTANGLE_CANVAS_HEIGHT / 2
-        ),
-        new Point(
-          width / 2 + middleDivergence,
-          height / 2 + RECTANGLE_CANVAS_HEIGHT / 2
-        )
-      );
-
-      // Horizontal Middle line
-      drawShape.drawLine(
-        new Point(rectangleCenterX(drawShape.getWidth(), size), height / 2),
-        new Point(
-          drawShape.getWidth() - rectangleCenterX(drawShape.getWidth(), size),
-          height / 2
-        )
-      );
-
-      // UP LEFT FILL RECTANGLE
-      drawShape.fillRectangle(
-        new Point(
-          rectangleCenterX(drawShape.getWidth(), size),
-          height / 2 - RECTANGLE_CANVAS_HEIGHT / 2
-        ),
-        new Point(size / 2 + middleDivergence, RECTANGLE_CANVAS_HEIGHT / 2)
-      );
-
-      // DOWN RIGHT FILL RECTANGLE
-      drawShape.fillRectangle(
-        new Point(width / 2 + middleDivergence, height / 2),
-        new Point(size / 2 - middleDivergence, RECTANGLE_CANVAS_HEIGHT / 2)
-      );
+      drawMiddleLines(drawShape);
+      drawDiagonalRectangles(drawShape);
       // ctx.rect(size, 0, width - size * 2, RECTANGLE_CANVAS_HEIGHT);
     }
   };

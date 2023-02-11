@@ -14,14 +14,16 @@ export interface ScenarioStimuli {
   length: number;
   middleDivergence: number;
   question: string;
+  reverseDiagonal?: boolean;
 }
 
 export interface ScenarioHybrid {
   type: 'STIMULI';
   length: number;
   middleDivergence: number;
-  sound?: Sound;
   question: string;
+  sound?: Sound;
+  reverseDiagonal?: boolean;
 }
 
 export const makeScenario = (): Scenario[] => [

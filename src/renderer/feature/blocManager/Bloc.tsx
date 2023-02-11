@@ -75,6 +75,7 @@ const Bloc = ({ exerciseList, getResult }: PropsBloc) => {
             middleDivergence={currentExercise.middleDivergence}
             question={currentExercise.question}
             sound={currentExercise.sound}
+            reverseDiagonal={currentExercise.reverseDiagonal}
             sendResult={getExerciceResult}
           />
         </div>

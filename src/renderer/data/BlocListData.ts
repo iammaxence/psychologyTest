@@ -18,6 +18,7 @@ const bloc1: ScenarioHybrid[] = [
       name: 'dog',
       orientation: 'LEFT',
     },
+    reverseDiagonal: true,
     question: 'Quel côté de la droite est le plus long ?',
   },
   {
@@ -28,6 +29,7 @@ const bloc1: ScenarioHybrid[] = [
       name: 'dog',
       orientation: 'LEFT',
     },
+    reverseDiagonal: true,
     question: 'Quel côté de la droite est le plus long ?',
   },
   {
@@ -38,6 +40,7 @@ const bloc1: ScenarioHybrid[] = [
       name: 'dog',
       orientation: 'LEFT',
     },
+    reverseDiagonal: true,
     question: 'Quel côté de la droite est le plus long ?',
   },
 ];
@@ -85,6 +88,7 @@ const bloc3: ScenarioHybrid[] = [
       name: 'dog',
       orientation: 'LEFT',
     },
+    reverseDiagonal: true,
     question: 'Quel côté de la droite est le plus court ?',
   },
 ];

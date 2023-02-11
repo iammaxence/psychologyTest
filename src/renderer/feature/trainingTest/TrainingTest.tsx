@@ -43,6 +43,7 @@ const TrainingTest = () => {
         length={currentStepPage.length}
         middleDivergence={currentStepPage.middleDivergence}
         question={currentStepPage.question}
+        reverseDiagonal={currentStepPage.reverseDiagonal}
         sendResult={next}
       />
     );

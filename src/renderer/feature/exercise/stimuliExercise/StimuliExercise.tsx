@@ -25,6 +25,7 @@ interface PropsStimuliExercise {
   middleDivergence: number;
   question: string;
   sound?: Sound;
+  reverseDiagonal?: boolean;
   sendResult: (userStatistics: UserStatistics) => void;
 }
 
@@ -33,6 +34,7 @@ const StimuliExercise = ({
   middleDivergence,
   question,
   sound,
+  reverseDiagonal = false,
   sendResult,
 }: PropsStimuliExercise) => {
   const ESCAPE_KEYS = ['ArrowRight', 'ArrowLeft'];
@@ -108,12 +110,22 @@ const StimuliExercise = ({
       return (
         <div>
           <SoundExercise sound={sound} />
-          <Stimuli id={1} size={length} middleDivergence={middleDivergence} />
+          <Stimuli
+            id={1}
+            size={length}
+            middleDivergence={middleDivergence}
+            reverseDiagonal={reverseDiagonal}
+          />
         </div>
       );
     } else {
       return (
-        <Stimuli id={1} size={length} middleDivergence={middleDivergence} />
+        <Stimuli
+          id={1}
+          size={length}
+          middleDivergence={middleDivergence}
+          reverseDiagonal={reverseDiagonal}
+        />
       );
     }
   };

@@ -22,9 +22,9 @@ Incompatibility of eslint-config-erb@"^4.0.4" with react v18.
 
 ## Board
 
-- StimuliExercise
+- Stimuli
 
-  - Add param to invert colors for certain blocs
+  - Refacto for a better understanding
 
 - BlocManager
 
