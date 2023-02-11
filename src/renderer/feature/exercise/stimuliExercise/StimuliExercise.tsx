@@ -2,13 +2,16 @@ import { useEffect, useRef, useState } from 'react';
 import Cross from 'renderer/components/cross/Cross';
 import Stimuli from 'renderer/components/stimuli/Stimuli';
 import './StimuliExercise.scss';
-import { TestResponse } from '../../../types/TestResponse';
 import useWindowDimensions from 'renderer/feature/utils/windowDimensions/WindowDimentions';
 import useEventListener from 'renderer/feature/utils/eventListener/EventListener';
-import { Orientation } from '../../../types/Orientation';
-import Sound from '../../sound/Sound';
 import Question from './question/Question';
 import Response from './response/Response';
+import { Sound } from 'renderer/interfaces/Sound';
+import SoundExercise from 'renderer/feature/sound/SoundExercise';
+import {
+  MiddlePosition,
+  UserStatistics,
+} from 'renderer/interfaces/UserStatistics';
 
 enum ExerciseStep {
   CROSS_STEP = 0,
@@ -18,20 +21,18 @@ enum ExerciseStep {
 }
 
 interface PropsStimuliExercise {
-  stimuliLength: number;
+  length: number;
   middleDivergence: number;
-  sound?: string;
-  soundOrientation?: Orientation;
   question: string;
-  sendResult: (testResponse: TestResponse) => void;
+  sound?: Sound;
+  sendResult: (userStatistics: UserStatistics) => void;
 }
 
 const StimuliExercise = ({
-  stimuliLength,
+  length,
   middleDivergence,
-  sound,
-  soundOrientation,
   question,
+  sound,
   sendResult,
 }: PropsStimuliExercise) => {
   const ESCAPE_KEYS = ['ArrowRight', 'ArrowLeft'];
@@ -39,14 +40,14 @@ const StimuliExercise = ({
 
   const { width } = useWindowDimensions();
   const [step, setStep] = useState<number>(0);
-  const userAnswer = useRef<TestResponse>();
+  const userAnswer = useRef<UserStatistics>();
   const [middleOfTheScreenX, setMiddleOfTheScreenX] = useState<number>(0);
 
   useEffect(() => {
     const timer = initStepInCorrectOrder();
 
     return () => clearTimeout(timer);
-  }, [stimuliLength, middleDivergence]);
+  }, [length, middleDivergence]);
 
   useEffect(() => {
     setMiddleOfTheScreenX(width / 2);
@@ -58,6 +59,7 @@ const StimuliExercise = ({
     let timer = setTimeout(() => {
       setStep(ExerciseStep.STIMULI_STEP);
     }, 1000);
+
     timer = setTimeout(() => {
       setStep(ExerciseStep.USER_RESPONSE_STEP);
     }, 2000);
@@ -74,8 +76,9 @@ const StimuliExercise = ({
     ) {
       userAnswer.current = {
         response: String(event.key) === 'ArrowRight' ? 'RIGHT' : 'LEFT',
-        lengthStimuli: stimuliLength.toString(),
-        positionStimuli: stimuliPosition(),
+        lengthStimuli: length,
+        middlePosition: middlePosition(),
+        sound,
       };
       setStep(ExerciseStep.RESULT_TEST);
     }
@@ -91,35 +94,26 @@ const StimuliExercise = ({
 
   useEventListener('keydown', arrowKeysHandler);
 
-  const stimuliPosition = (): string => {
+  const middlePosition = (): MiddlePosition => {
+    if (middleOfTheScreenX === middleOfTheScreenX + middleDivergence) {
+      return 'MIDDLE';
+    }
     return middleOfTheScreenX < middleOfTheScreenX + middleDivergence
       ? 'RIGHT'
       : 'LEFT';
   };
 
   const displayStimuli = () => {
-    if (sound && soundOrientation) {
+    if (sound) {
       return (
         <div>
-          <Sound
-            sound={sound}
-            soundOrientation={soundOrientation}
-            next={() => ''}
-          />
-          <Stimuli
-            id={1}
-            size={stimuliLength}
-            middleDivergence={middleDivergence}
-          />
+          <SoundExercise sound={sound} />
+          <Stimuli id={1} size={length} middleDivergence={middleDivergence} />
         </div>
       );
     } else {
       return (
-        <Stimuli
-          id={1}
-          size={stimuliLength}
-          middleDivergence={middleDivergence}
-        />
+        <Stimuli id={1} size={length} middleDivergence={middleDivergence} />
       );
     }
   };
@@ -133,7 +127,7 @@ const StimuliExercise = ({
       case ExerciseStep.USER_RESPONSE_STEP:
         return <Question question={question} />;
       case ExerciseStep.RESULT_TEST:
-        return <Response answer={stimuliPosition()} />;
+        return <Response answer={middlePosition()} />;
       default:
         break;
     }

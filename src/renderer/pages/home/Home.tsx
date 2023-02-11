@@ -6,8 +6,15 @@ import './Home.scss';
 import Menu from 'renderer/components/menu/Menu';
 import BlocManager from '../../feature/blocManager/BlocManager';
 import TrainingTest from '../../feature/trainingTest/TrainingTest';
-import { BlocResponse } from 'renderer/types/BlocResponse';
-import { makeBlocListA, makeBlocListB } from 'renderer/data/BlocList';
+import { BlocResponse } from 'renderer/interfaces/BlocResponse';
+import { makeBlocListA, makeBlocListB } from 'renderer/data/BlocListData';
+import {
+  transalteLengthStimuliStats,
+  translatePositionStimuliStats,
+  translateResponseStats,
+  translateSoundNameStats,
+  translateSoundOrientationStats,
+} from 'renderer/feature/translation/StatsTranslation';
 
 const Home = () => {
   const user = useSelector(getUserSelector);
@@ -16,11 +23,18 @@ const Home = () => {
   const menuList = ["Commencer l'entrainement", 'Test 1', 'Test 2'];
 
   function exportResult(data: BlocResponse[]) {
+    setMenuSelection(4);
     const allResponse = blocResponseListToResponseList(data);
-    console.log('All response: ', allResponse);
+
     const rows: string[][] = [];
     for (const value of allResponse) {
-      rows.push([value.response, value.lengthStimuli, value.positionStimuli]);
+      rows.push([
+        translateResponseStats(value.response),
+        transalteLengthStimuliStats(value.lengthStimuli),
+        translatePositionStimuliStats(value.middlePosition),
+        translateSoundNameStats(value.sound?.name),
+        translateSoundOrientationStats(value.sound?.orientation),
+      ]);
     }
 
     const columns = [
@@ -30,12 +44,12 @@ const Home = () => {
       'Sons',
       'Orientation du son',
     ];
+
     Statistics.generateFile(user, columns, rows);
   }
 
   function blocResponseListToResponseList(data: BlocResponse[]) {
-    console.log('response data: ', data);
-    return data.flatMap((blocResponse) => blocResponse.responseList);
+    return data.flatMap((blocResponse) => blocResponse.userStatisticsList);
   }
 
   const goToMenuSelection = useCallback(
@@ -54,6 +68,12 @@ const Home = () => {
       case 3:
         return (
           <BlocManager blocList={makeBlocListB()} sendData={exportResult} />
+        );
+      case 4:
+        return (
+          <div>
+            <h1>FIN</h1>
+          </div>
         );
       default:
         return (

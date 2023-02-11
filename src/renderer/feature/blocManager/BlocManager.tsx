@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { ScenarioHybrid } from 'renderer/data/Scenario';
 import Bloc from './Bloc';
-import { BlocResponse } from '../../types/BlocResponse';
 import Pause from 'renderer/components/pause/Pause';
-import { TestResponse } from '../../types/TestResponse';
+import { BlocResponse } from 'renderer/interfaces/BlocResponse';
+import { UserStatistics } from 'renderer/interfaces/UserStatistics';
 
 interface PropsBlocManager {
   blocList: ScenarioHybrid[][];
@@ -14,7 +14,7 @@ const BlocManager = ({ blocList, sendData }: PropsBlocManager) => {
   const [currentBloc, setCurrentBloc] = useState<ScenarioHybrid[]>([]);
   const [isPause, setIsPause] = useState<boolean>(false);
 
-  const restBlocList = useRef<ScenarioHybrid[][]>(blocList);
+  const restBlocList = useRef<ScenarioHybrid[][]>([...blocList]);
   const responseForBlocManager = useRef<BlocResponse[]>([]);
 
   useEffect(() => {
@@ -32,8 +32,8 @@ const BlocManager = ({ blocList, sendData }: PropsBlocManager) => {
     restBlocList.current.shift();
   }
 
-  function getResultHandler(responseList: TestResponse[]): void {
-    responseForBlocManager.current.push({ step, responseList });
+  function getResultHandler(userStatisticsList: UserStatistics[]): void {
+    responseForBlocManager.current.push({ step, userStatisticsList });
     selectNextBloc();
 
     if (step >= blocList.length - 1) {

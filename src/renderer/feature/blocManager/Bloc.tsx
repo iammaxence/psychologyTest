@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import randomIntFromInterval from 'renderer/feature/utils/random/Random';
 import { ScenarioHybrid } from 'renderer/data/Scenario';
-import { TestResponse } from '../../types/TestResponse';
+import { UserStatistics } from '../../interfaces/UserStatistics';
 import StimuliExercise from '../exercise/stimuliExercise/StimuliExercise';
 
 interface PropsBloc {
   exerciseList: ScenarioHybrid[];
-  getResult: (responseList: TestResponse[]) => void;
+  getResult: (userStatisticsList: UserStatistics[]) => void;
 }
 const Bloc = ({ exerciseList, getResult }: PropsBloc) => {
   const [currentExercise, setCurrentExercise] = useState<
@@ -14,7 +14,7 @@ const Bloc = ({ exerciseList, getResult }: PropsBloc) => {
   >();
 
   const restExcerciseList = useRef<ScenarioHybrid[]>([]);
-  const userResponseList = useRef<TestResponse[]>([]);
+  const userStatisticsList = useRef<UserStatistics[]>([]);
 
   useEffect(() => {
     init();
@@ -22,7 +22,7 @@ const Bloc = ({ exerciseList, getResult }: PropsBloc) => {
 
   function init(): void {
     initRestExerciceList();
-    userResponseList.current = [];
+    userStatisticsList.current = [];
   }
 
   function initRestExerciceList(): void {
@@ -49,20 +49,20 @@ const Bloc = ({ exerciseList, getResult }: PropsBloc) => {
 
   function nextExercise() {
     if (restExcerciseList.current.length == 0) {
-      getResult(userResponseList.current);
+      getResult(userStatisticsList.current);
     } else {
       const randomIndex = selectRandomExercise();
       removeExercise(randomIndex);
     }
   }
 
-  function getResultHandler(testResponse: TestResponse) {
-    userResponseList.current.push(testResponse);
+  function getResultHandler(userStatistics: UserStatistics) {
+    userStatisticsList.current.push(userStatistics);
     nextExercise();
   }
 
   const getExerciceResult = useCallback(
-    (testResponse: TestResponse) => getResultHandler(testResponse),
+    (userStatistics: UserStatistics) => getResultHandler(userStatistics),
     [currentExercise]
   );
 
@@ -71,11 +71,10 @@ const Bloc = ({ exerciseList, getResult }: PropsBloc) => {
       return (
         <div>
           <StimuliExercise
-            stimuliLength={currentExercise.length}
+            length={currentExercise.length}
             middleDivergence={currentExercise.middleDivergence}
-            sound={currentExercise.sound}
-            soundOrientation={currentExercise.soundOrientation}
             question={currentExercise.question}
+            sound={currentExercise.sound}
             sendResult={getExerciceResult}
           />
         </div>

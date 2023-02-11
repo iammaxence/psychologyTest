@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import ExplanatoryText from 'renderer/feature/explanatoryText/ExplanatoryText';
 import { Scenario, makeScenario } from 'renderer/data/Scenario';
-import { TestResponse } from '../../types/TestResponse';
 import StimuliExercise from '../exercise/stimuliExercise/StimuliExercise';
 
 const TrainingTest = () => {
@@ -25,11 +24,6 @@ const TrainingTest = () => {
 
   const next = useCallback(() => setStep((step) => step + 1), [step]);
 
-  function exerciceResponse(testResponse: TestResponse) {
-    console.log('TestResponse : ', testResponse);
-    next();
-  }
-
   const displayTestScenario = () => {
     if (!currentStepPage) return null;
 
@@ -46,10 +40,10 @@ const TrainingTest = () => {
 
     return (
       <StimuliExercise
-        stimuliLength={currentStepPage.length}
+        length={currentStepPage.length}
         middleDivergence={currentStepPage.middleDivergence}
         question={currentStepPage.question}
-        sendResult={exerciceResponse}
+        sendResult={next}
       />
     );
   };

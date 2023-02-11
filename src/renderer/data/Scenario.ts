@@ -1,4 +1,4 @@
-import { Orientation } from 'renderer/types/Orientation';
+import { Sound } from 'renderer/interfaces/Sound';
 
 export type Scenario = ScenarioText | ScenarioStimuli | ScenarioHybrid;
 
@@ -20,8 +20,7 @@ export interface ScenarioHybrid {
   type: 'STIMULI';
   length: number;
   middleDivergence: number;
-  sound: string;
-  soundOrientation: Orientation;
+  sound?: Sound;
   question: string;
 }
 

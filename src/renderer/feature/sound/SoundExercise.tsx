@@ -1,13 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
-import { Orientation } from '../../types/Orientation';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import dogBark from '../../../../assets/sound/dog.mp3';
+import { Sound } from 'renderer/interfaces/Sound';
 
 interface PropsSound {
-  sound: string;
-  soundOrientation: Orientation;
-  next: () => void;
+  sound: Sound;
 }
 
-const Sound = ({ sound, soundOrientation, next }: PropsSound) => {
+const SoundExercise = ({ sound }: PropsSound) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -29,7 +28,7 @@ const Sound = ({ sound, soundOrientation, next }: PropsSound) => {
   }, []);
 
   const getPan = () => {
-    if (soundOrientation === 'LEFT') {
+    if (sound.orientation === 'LEFT') {
       return -1;
     } else {
       return 1;
@@ -55,7 +54,15 @@ const Sound = ({ sound, soundOrientation, next }: PropsSound) => {
     }
   };
 
-  return <audio ref={audioRef} crossOrigin="anonymous" src={sound} />;
+  const selectedSound = useCallback(() => {
+    if (sound.name === 'dog') {
+      return dogBark;
+    } else {
+      return '';
+    }
+  }, []);
+
+  return <audio ref={audioRef} crossOrigin="anonymous" src={selectedSound()} />;
 };
 
-export default Sound;
+export default SoundExercise;

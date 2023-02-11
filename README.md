@@ -24,8 +24,6 @@ Incompatibility of eslint-config-erb@"^4.0.4" with react v18.
 
 - StimuliExercise
 
-  - Two distinct components to separate sound et stimuli
-  - Get stats sound
   - Add param to invert colors for certain blocs
 
 - BlocManager
@@ -37,8 +35,15 @@ Incompatibility of eslint-config-erb@"^4.0.4" with react v18.
   - Menu with bloc 1 2 3 4 and bloc 2 1 4 3
 
 - Stats
-  - "Petit" | "Grand" instead of the real length of the stimuli
+
   - When user respond to late, put marker somewhere
+
+- Package
+
+  - Should create stats in the current folder of the app
+
+- General settings
+  - delete unused tabs
 
 ## Stats
 
