@@ -30,10 +30,6 @@ Incompatibility of eslint-config-erb@"^4.0.4" with react v18.
 
   - Refacto "getResultHandler" of BlocManager (to be more explicit)
 
-- Menu
-
-  - Menu with bloc 1 2 3 4 and bloc 2 1 4 3
-
 - Stats
 
   - When user respond to late, put marker somewhere
