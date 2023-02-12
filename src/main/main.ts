@@ -25,11 +25,26 @@ class AppUpdater {
 let mainWindow: BrowserWindow | null = null;
 
 /** CUSTOM IPC LISTENER */
+const pathOfTheApp = `${app.getPath('desktop')}/stats`;
+
+function createStatsFolder(): void {
+  if (!fs.existsSync(pathOfTheApp)) {
+    console.log('Create stats folder');
+    fs.mkdir(pathOfTheApp, () =>
+      console.log('Something append when creating stats folder')
+    );
+  }
+}
 
 ipcMain.on('write-file', function (event, args) {
-  fs.writeFile(`src/stats/${args[0]}.csv`, args[1], function (error: any) {
-    if (error) throw error;
-  });
+  createStatsFolder();
+  fs.writeFile(
+    `${pathOfTheApp}/${args[0]}.csv`,
+    args[1],
+    function (error: any) {
+      if (error) throw error;
+    }
+  );
 });
 
 /**---------------------*/

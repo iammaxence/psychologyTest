@@ -15,12 +15,13 @@ import {
   translateSoundNameStats,
   translateSoundOrientationStats,
 } from 'renderer/feature/translation/StatsTranslation';
+import End from '../end/End';
 
 const Home = () => {
   const user = useSelector(getUserSelector);
   const [menuSelection, setMenuSelection] = useState(0);
 
-  const menuList = ["Commencer l'entrainement", 'Test 1', 'Test 2'];
+  const menuList = ['Entrainement', 'Test A', 'Test B'];
 
   function exportResult(data: BlocResponse[]) {
     setMenuSelection(4);
@@ -70,11 +71,7 @@ const Home = () => {
           <BlocManager blocList={makeBlocListB()} sendData={exportResult} />
         );
       case 4:
-        return (
-          <div>
-            <h1>FIN</h1>
-          </div>
-        );
+        return <End callback={() => setMenuSelection(-1)} />;
       default:
         return (
           <Menu menuList={menuList} setMenuSelection={goToMenuSelection} />

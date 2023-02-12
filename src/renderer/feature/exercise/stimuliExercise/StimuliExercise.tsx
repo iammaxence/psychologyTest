@@ -49,7 +49,7 @@ const StimuliExercise = ({
     const timer = initStepInCorrectOrder();
 
     return () => clearTimeout(timer);
-  }, [length, middleDivergence]);
+  }, [length, middleDivergence, sound]);
 
   useEffect(() => {
     setMiddleOfTheScreenX(width / 2);
