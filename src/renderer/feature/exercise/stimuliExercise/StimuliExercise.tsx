@@ -106,7 +106,8 @@ const StimuliExercise = ({
   };
 
   const displayStimuli = () => {
-    if (sound) {
+    // TODO Waiting for more sound
+    if (sound && sound.name === 'dog') {
       return (
         <div>
           <SoundExercise sound={sound} />

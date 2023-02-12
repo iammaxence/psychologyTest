@@ -43,7 +43,12 @@ Incompatibility of eslint-config-erb@"^4.0.4" with react v18.
   - Should create stats in the current folder of the app
 
 - General settings
+
   - delete unused tabs
+
+- Sound
+
+  - Add missing sounds
 
 ## Stats
 
