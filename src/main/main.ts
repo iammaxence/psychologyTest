@@ -78,6 +78,13 @@ const createWindow = async () => {
     return path.join(RESOURCES_PATH, ...paths);
   };
 
+  const autoHideMenuBar = () => {
+    return (
+      process.env.NODE_ENV === 'development' ||
+      process.env.DEBUG_PROD === 'true'
+    );
+  };
+
   mainWindow = new BrowserWindow({
     show: false,
     width: 1024,
@@ -90,6 +97,7 @@ const createWindow = async () => {
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
     },
+    autoHideMenuBar: autoHideMenuBar() ? false : true,
   });
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
