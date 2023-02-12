@@ -35,3 +35,4 @@ npm-debug.log.*
 .eslintrc.js
 src/renderer/index.tsx
 src/main/main.ts
+src/main/menu.ts
