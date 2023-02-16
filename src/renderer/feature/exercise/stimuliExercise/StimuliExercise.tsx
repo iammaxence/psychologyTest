@@ -109,7 +109,7 @@ const StimuliExercise = ({
     // TODO Waiting for more sound
     if (sound && sound.name === 'dog') {
       return (
-        <div>
+        <>
           <SoundExercise sound={sound} />
           <Stimuli
             id={1}
@@ -117,7 +117,7 @@ const StimuliExercise = ({
             middleDivergence={middleDivergence}
             reverseDiagonal={reverseDiagonal}
           />
-        </div>
+        </>
       );
     } else {
       return (

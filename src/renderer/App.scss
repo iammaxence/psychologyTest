@@ -3,9 +3,15 @@
   src: local('Sora'), url(../fonts/Sora.ttf) format('ttf');
 }
 
-body {
+body,
+html {
   position: relative;
-  height: 100vh;
   font-family: sans-serif;
-  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+#root {
+  height: 100%;
 }

@@ -69,21 +69,19 @@ const Bloc = ({ exerciseList, getResult }: PropsBloc) => {
   function displayExercise() {
     if (currentExercise) {
       return (
-        <div>
-          <StimuliExercise
-            length={currentExercise.length}
-            middleDivergence={currentExercise.middleDivergence}
-            question={currentExercise.question}
-            sound={currentExercise.sound}
-            reverseDiagonal={currentExercise.reverseDiagonal}
-            sendResult={getExerciceResult}
-          />
-        </div>
+        <StimuliExercise
+          length={currentExercise.length}
+          middleDivergence={currentExercise.middleDivergence}
+          question={currentExercise.question}
+          sound={currentExercise.sound}
+          reverseDiagonal={currentExercise.reverseDiagonal}
+          sendResult={getExerciceResult}
+        />
       );
     }
   }
 
-  return <div>{displayExercise()}</div>;
+  return displayExercise();
 };
 
 export default Bloc;

@@ -35,11 +35,7 @@ const Cross = ({ size }: PropsCross) => {
     }
   };
 
-  return (
-    <div>
-      <canvas id="cross" width={width} height={height}></canvas>
-    </div>
-  );
+  return <canvas id="cross" width={width} height={height}></canvas>;
 };
 
 export default Cross;

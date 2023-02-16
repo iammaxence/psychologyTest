@@ -16,6 +16,7 @@ import {
   translateSoundOrientationStats,
 } from 'renderer/feature/translation/StatsTranslation';
 import End from '../end/End';
+import Stimuli from 'renderer/components/stimuli/Stimuli';
 
 const Home = () => {
   const user = useSelector(getUserSelector);
@@ -72,6 +73,15 @@ const Home = () => {
         );
       case 4:
         return <End callback={() => setMenuSelection(-1)} />;
+      case 5:
+        return (
+          <Stimuli
+            id={0}
+            middleDivergence={0}
+            size={500}
+            reverseDiagonal={true}
+          />
+        );
       default:
         return (
           <Menu menuList={menuList} setMenuSelection={goToMenuSelection} />

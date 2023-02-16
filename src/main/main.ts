@@ -93,26 +93,18 @@ const createWindow = async () => {
     return path.join(RESOURCES_PATH, ...paths);
   };
 
-  const autoHideMenuBar = () => {
-    return (
-      process.env.NODE_ENV === 'development' ||
-      process.env.DEBUG_PROD === 'true'
-    );
-  };
-
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 900,
-    minWidth: 1024,
-    minHeight: 900,
+    width: 1200,
+    height: 768,
+    minWidth: 900,
+    minHeight: 200,
     icon: getAssetPath('icon.png'),
     webPreferences: {
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
     },
-    autoHideMenuBar: autoHideMenuBar() ? false : true,
   });
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));

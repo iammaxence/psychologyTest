@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import DrawShape from 'renderer/feature/utils/drawShape/DrawShape';
 import useWindowDimensions from 'renderer/feature/utils/windowDimensions/WindowDimentions';
 import Point from './point/Point';
-import './Stimuli.scss';
 
 interface PropsStimuli {
   id: number;
@@ -110,11 +109,7 @@ const Stimuli = ({
   const rectangleCenterX = (canvasWidth: number, size: number) =>
     canvasWidth / 2 - size / 2;
 
-  return (
-    <div className="stimuli">
-      <canvas id={'stimuli_' + id} width={width} height={height}></canvas>
-    </div>
-  );
+  return <canvas id={'stimuli_' + id} width={width} height={height}></canvas>;
 };
 
 export default Stimuli;

@@ -20,6 +20,9 @@ Incompatibility of eslint-config-erb@"^4.0.4" with react v18.
 
 ## Fix
 
+- When the question is "What is the longuest side ?", the answer is always the oposite.
+  - Show the correct answers depending of the question
+
 ## Board
 
 - Stimuli
@@ -33,10 +36,6 @@ Incompatibility of eslint-config-erb@"^4.0.4" with react v18.
 - Stats
 
   - When user respond to late, put marker somewhere
-
-- Package
-
-  - Should create stats in the current folder of the app
 
 - Menu
 
